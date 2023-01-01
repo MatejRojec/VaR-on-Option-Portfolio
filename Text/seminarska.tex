@@ -1,17 +1,22 @@
-\documentclass[12pt,a4paper]{amsart}
-% ukazi za delo s slovenscino -- izberi kodiranje, ki ti ustreza
-\usepackage[slovene]{babel}
+\documentclass[a4paper, 12pt]{article}
+\usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
-%\usepackage[T1]{fontenc}
-%\usepackage[utf8]{inputenc}
-\usepackage{amsmath,amssymb,amsfonts}
-\usepackage{url}
-%\usepackage[normalem]{ulem}
-\usepackage[dvipsnames,usenames]{color}
-\usepackage{algpseudocode}
-\usepackage{graphicx}
-\usepackage[a-1b]{pdfx}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
 
+\usepackage{url}
+\usepackage{graphicx}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+
+
+\theoremstyle{definition}
+\newtheorem{definicija}{Definicija}
+
+\theoremstyle{plain}
+\newtheorem{izrek}{Izrek}
 
 % ne spreminjaj podatkov, ki vplivajo na obliko strani
 \textwidth 15cm
@@ -25,27 +30,6 @@
 
 
 % ukazi za matematicna okolja
-\theoremstyle{definition} % tekst napisan pokoncno
-\newtheorem{definicija}{Definicija}[section]
-\newtheorem{opomba}[definicija]{Opomba}
-
-\theoremstyle{definition}
-\newtheorem{example}{Zgled}
-
-\theoremstyle{definition}
-\newtheorem{dokaz}{Dokaz}
-
-\theoremstyle{definition}
-\newtheorem{algoritem}{Algoritem}
-
-%\renewcommand\endprimer{\hfill$\diamondsuit$}
-
-
-\theoremstyle{plain} % tekst napisan posevno
-\newtheorem{lema}[definicija]{Lema}
-\newtheorem{izrek}[definicija]{Izrek}
-\newtheorem{trditev}[definicija]{Trditev}
-\newtheorem{posledica}[definicija]{Posledica}
 
 
 % za stevilske mnozice uporabi naslednje simbole
@@ -54,16 +38,12 @@
 \newcommand{\Z}{\mathbb Z}
 \newcommand{\C}{\mathbb C}
 \newcommand{\Q}{\mathbb Q}
-
-\newcommand{\al}{\alpha}
-\newcommand{\g}{\triangledown}
-\newcommand{\abs}{\Vert}
-
+\newcommand{\f}{\mathcal F}
+\newcommand{\p}{\mathbb P}
 
 % ukaz za slovarsko geslo
 \newlength{\odstavek}
 \setlength{\odstavek}{\parindent}
-\newcommand{\geslo}[2]{\noindent\textbf{#1}\hspace*{3mm}\hangindent=\parindent\hangafter=1 #2}
 
 
 % naslednje ukaze ustrezno popravi
@@ -72,11 +52,6 @@
 \newcommand{\imementorja}{dr. Aleš Ahčan} % akademski naziv in ime mentorja
 \newcommand{\naslovdela}{VaR on option portfolio}
 \newcommand{\letnica}{2022}
-
-
-% vstavi svoje definicije ...
-
-
 
 
 \begin{document}
@@ -105,7 +80,34 @@ Ljubljana, \letnica}
 \tableofcontents
 \pagebreak
 
-\section{Osnovno o opcijah}
+\section{Elementary definitions for options}
+A stock option is the right to buy or sell a stock at a certain price in the future.
+The stock is called the underlying security (we usally say just the underlying).
+There are two main types of options, a put and a call option.
+A call option gives the owner the right to buy the underlying, while a 
+put option gives the holder the right to sell the underlying. 
+The price at 
+which the stock may be bought or sold is the exercise price, also called the striking 
+price. 
+A stock option affords this right to buy or sell for only a limited period of time;
+thus, each option has an expiration date. 
+We will focous on listed options, meaning they are traded on an exchange where a secondary market 
+exists, thus we will not cover the topic of over the counter options.
+
+To summarise a stock options contract is defined by following 4 characteristics:
+\begin{enumerate}
+    \item the option type (put, call),
+    \item the expiration date of the contract,
+    \item the striking price of the contract,
+    \item the underlying stock name.
+\end{enumerate}
+
+An options is closly linked to it's underlying stock. Meaning that its price changes as 
+the price of the underlying changes.
+
+
+
+
 % B-S model
 % grki
 % zaščitni portfelj
@@ -122,6 +124,16 @@ potem je samo $5\%$ verjetnost, da bo vrednost sredstva padla za več kot $100$ 
 Pri opcijah pa ni tako preprosto, saj mora ocena tveganja  upoštevati nelinarno gibanje cen (gamma učinek)
 in posredna volatilnost (vega učinek). % implied volatilities
 Za opcije bomo nelinearno gibanje cen ocenili analitično (delta-gamma) ali s simulacijo. 
+
+Let us now give a formal definiton of value at risk. 
+\begin{definicija}
+Let $X$ be a random variable on a probability space $(\Omega, \f, \p)$ and $\alpha \in (0, 1)$.
+VaR$_\alpha(X)$ is defined as the $(1-\alpha)$ quntile of -$X$. So:
+$$
+\textnormal{VaR}_\alpha(X) := - \inf \{ x \in \R \mid F_X(x) > \alpha \} = F^{-1}_{-X}(1-\alpha).
+$$
+\end{definicija}
+
 
 \subsection{Kako izračunamo VaR?}
 
