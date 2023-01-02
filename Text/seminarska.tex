@@ -1,0 +1,200 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+\usepackage{url}
+\usepackage{graphicx}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+
+
+\theoremstyle{definition}
+\newtheorem{definicija}{Definicija}
+
+\theoremstyle{plain}
+\newtheorem{izrek}{Izrek}
+
+% ne spreminjaj podatkov, ki vplivajo na obliko strani
+\textwidth 15cm
+\textheight 24cm
+\oddsidemargin.5cm
+\evensidemargin.5cm
+\topmargin-5mm
+\addtolength{\footskip}{10pt}
+\pagestyle{plain}
+\overfullrule=15pt % oznaci predlogo vrstico
+
+
+% ukazi za matematicna okolja
+
+
+% za stevilske mnozice uporabi naslednje simbole
+\newcommand{\R}{\mathbb R}
+\newcommand{\N}{\mathbb N}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\C}{\mathbb C}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\f}{\mathcal F}
+\newcommand{\p}{\mathbb P}
+
+% ukaz za slovarsko geslo
+\newlength{\odstavek}
+\setlength{\odstavek}{\parindent}
+
+
+% naslednje ukaze ustrezno popravi
+\newcommand{\program}{Finančna matematika} % ime studijskega programa: Matematika/Finan'cna matematika
+\newcommand{\imeavtorja}{Tia Krofel, Brina Ribič, Matej Rojec} % ime avtorja
+\newcommand{\imementorja}{dr. Aleš Ahčan} % akademski naziv in ime mentorja
+\newcommand{\naslovdela}{VaR on option portfolio}
+\newcommand{\letnica}{2022}
+
+
+\begin{document}
+
+% od tod do povzetka ne spreminjaj nicesar
+\thispagestyle{empty}
+\noindent{\large
+UNIVERZA V LJUBLJANI\\[1mm]
+FAKULTETA ZA MATEMATIKO IN FIZIKO\\[5mm]
+\program\ -- 2.~stopnja}
+\vfill
+
+\begin{center}{\large
+\imeavtorja\\[2mm]
+{\bf \naslovdela}\\[10mm]
+Seminarska naloga pri predmetu Upravljanje tveganj\\[1cm]
+Mentor: \imementorja}
+\end{center}
+\vfill
+
+\noindent{\large
+Ljubljana, \letnica}
+\pagebreak
+
+\thispagestyle{empty}
+\tableofcontents
+\pagebreak
+
+\section{Elementary definitions for options}
+A stock option is the right to buy or sell a stock at a certain price in the future.
+The stock is called the underlying security (we usally say just the underlying).
+There are two main types of options, a put and a call option.
+A call option gives the owner the right to buy the underlying, while a 
+put option gives the holder the right to sell the underlying. 
+The price at 
+which the stock may be bought or sold is the exercise price, also called the striking 
+price. 
+A stock option affords this right to buy or sell for only a limited period of time;
+thus, each option has an expiration date. 
+We will focous on listed options, meaning they are traded on an exchange where a secondary market 
+exists, thus we will not cover the topic of over the counter options.
+
+To summarise a stock options contract is defined by following 4 characteristics:
+\begin{enumerate}
+    \item the option type (put, call),
+    \item the expiration date of the contract,
+    \item the striking price of the contract,
+    \item the underlying stock name.
+\end{enumerate}
+
+An options is closly linked to it's underlying stock. Meaning that its price changes as 
+the price of the underlying changes.
+
+%While the type (put or call) and the underlying stock are self-evident and essentially standardized, the striking price and expiration date require more
+%explanation. 
+
+%Striking prices intervals are not hardcoded, they are detirmened on an exchange.
+%They are generally spaced 5 points apart, but for expensive stock they and be 
+%10 points or more apart andfFor cheaper stocks (i.e. less then \$35 per share)
+%they can be 2.5 points apart. However these intervals can be altered, based on 
+%market depth and liqudity.
+
+% B-S model
+% grki
+% zaščitni portfelj
+
+\section{Osnovno o VaR}
+
+"Value at Risk" oziroma VaR je mera, ki je opredeljena kot največja potencialna sprememba v vrednosti portfelja pri določeni,
+dovolj visoki stopnji zaupanja za vnaprej določeno časovno obdobje. Ponavadi je stopnja zaupanja $95\%$ ali $99\%$.
+VaR nam pove, koliko lahko izgubim z $x\%$ verjetnostjo v nekem časovnem obdobju. Ponavadi se uporablja
+krajše časovno obdobje, recimo dan, teden ali nekaj tednov.
+To pomeni, če je VaR za neko sredstvo $100$ milijonov evrov v obdobju enega tedna s stopnjo zaupanja $95\%$,
+potem je samo $5\%$ verjetnost, da bo vrednost sredstva padla za več kot $100$ milijonov evrov v katerem koli tednu.
+
+Pri opcijah pa ni tako preprosto, saj mora ocena tveganja  upoštevati nelinarno gibanje cen (gamma učinek)
+in posredna volatilnost (vega učinek). % implied volatilities
+Za opcije bomo nelinearno gibanje cen ocenili analitično (delta-gamma) ali s simulacijo. 
+
+Let us now give a formal definiton of value at risk. 
+\begin{definicija}
+Let $X$ be a random variable on a probability space $(\Omega, \f, \p)$ and $\alpha \in (0, 1)$.
+VaR$_\alpha(X)$ is defined as the $(1-\alpha)$ quntile of -$X$. So:
+$$
+\textnormal{VaR}_\alpha(X) := - \inf \{ x \in \R \mid F_X(x) > \alpha \} = F^{-1}_{-X}(1-\alpha).
+$$
+\end{definicija}
+
+
+\subsection{Kako izračunamo VaR?}
+
+Obstajajo trije osnovni pristopi, kako izračunati VaR. Lahko jo izračunamo analitično
+s predpostavkami o porazdelitvah donosov za tržna tveganja, zraven pa moramo upoštevati variance
+in kovariance med temi tveganji. VaR lahko ocenimo tudi s hipotetičnim portfeljem preko historičnih 
+podatkov ali z Monte Carlo simulacijo. 
+
+\subsubsection{Mean variance framework}
+
+\subsubsection{Historical simulation}
+% tega načina za opcije ne moremo uporabit, ker je težko zbrati historične podatke za opcije
+% izpostavljenost bi morala biti pogojevana na veliko
+% karakteristik, da bi lahko izračunali standardni var
+% te so: volatilnost, čas dospelosti, S_t, strike price
+% če to vse vstavimo v B-S model postane model nelinear zaradi narave derivativov
+
+
+\subsubsection{Monte Carlo simulacija}
+% uporabno, ker lahko upoštevamo nelinarnost
+
+\subsection{Prednosti in slabosti}
+% tu je mišljeno tega navadnega -> zato vpeljemo non-linear
+% pri derivativih imamo nelinearno izpostavljenost k tveganju -> Kaj to pomeni?
+
+\section{Nonlinear VaR}
+% uporablja se za derivative
+% tiste FI, ki imajo nelinearno izpostavljenost k tveganju
+% mapping!
+% B-S formula, od tod potem sledi da je izpostavljenost nelinearna
+% analytical approximation and structured monte carlo simulation
+VaR meri tržno tveganje portfelja. Tu si portfelj predstavljamo kot množico 
+pozicij, od katerih je vsaka sestavljena iz osnovnih vrednostnih papirjev. Zato razvrstimo pozicije
+v preprostejše, ki so linearne, in v pozicije izvedenih finančnih instrumentov, ki jih lahko še naprej
+razdelimo v linearne ali nelinearne pozicije izvedenih finančnih instrumentov.
+
+% primer preproste pozicije
+
+Osnovna različica VaR predpostavlja linearno povezavo med donosi in spremembo vrednosti pozicije.
+Tu predpostavljamo, da imajo donosi vrednostnega papirja večrazsežno pogojno normalno porazdelitev.  
+
+Pri opcijskih pozicijah je nelinearna povezava med spremembo vrednosti pozicije in donosom. 
+To lahko pojasnimo s preprosto opcijo na delnico. Cena opcije je $V(P_t,K,\tau,\rho,\sigma)$ v 
+odvisnosti od cene delnice $P_t$ ob času $t$, izvršilne cene $K$, časa dospelosti $\tau$. 
+Cena opcije je odvisna tudi od netvegane obrestne mere $\rho$ nekega vrednostnega papirja, ki ima enak
+čas dospelosti kot opcija ter od standardnega odklona $\sigma$ logaritma cene delnice v časovnem obdobju opcije.
+
+Pri delta-gama pristopu še vedno predpostavljamo, da so donosi vrednostnih papirjev normalno porazdeljeni. 
+Dodatno dopuščamo nelinearno zvezo med vrednostjo pozicije in donosi temelja. Natančneje, dovoljujemo gama učinek,
+torej da relativna sprememba portfelja iz derivativov (v našem primeru opcij) ni več normalno porazdelja. 
+Zaradi tega ne moremo več VaR definirati kot 1.65 krat standardni odklon portfelja. Namesto tega VaR 
+izračunamo v dveh glavnih korakih. Najprej izračunamo prve štiri momente porazdelitve donosa portfelja, tj.,
+povprečje, standardni odklon, \textbf{skewness}, \textbf{kurtosis}. Potem poiščemo 
+porazdelitev, ki ima enake prve štiri momente kot porazdelitev donosa portfelja in izračunamo peti 
+percentil (ali prvi, odvidno od problema). Od tod potem dobimo VaR.
+
+
+\end{document}
