@@ -80,30 +80,54 @@ Ljubljana, \letnica}
 \tableofcontents
 \pagebreak
 
-\section{Elementary definitions for options}
-A stock option is the right to buy or sell a stock at a certain price in the future.
-The stock is called the underlying security (we usally say just the underlying).
-There are two main types of options, a put and a call option.
-A call option gives the owner the right to buy the underlying, while a 
-put option gives the holder the right to sell the underlying. 
-The price at 
-which the stock may be bought or sold is the exercise price, also called the striking 
-price. 
-A stock option affords this right to buy or sell for only a limited period of time;
-thus, each option has an expiration date. 
-We will focous on listed options, meaning they are traded on an exchange where a secondary market 
-exists, thus we will not cover the topic of over the counter options.
+\section{Osnovno o opcijah}
 
-To summarise a stock options contract is defined by following 4 characteristics:
-\begin{enumerate}
-    \item the option type (put, call),
-    \item the expiration date of the contract,
-    \item the striking price of the contract,
-    \item the underlying stock name.
-\end{enumerate}
+Opcija je pogodba med nosilcem opcije (kupcem) in izdajateljem opcije
+o nakupu oziroma prodaji osnovnega premoženja (temelja) po določeni ceni $K$ imenovani
+izvršilna cena. Če opcija daje nosilcu pravico nakupa temelja, jo imenujemo nakupna opcija, če pa daje pravico prodaje,
+jo imenujemo prodajna opcija. Glede na to, kdaj je možna izvršitev opcije, ločimo več vrst opcij.
+Najbolj preprosta je evropska opcija, ki daje pravico izvršitve samo ob zapadlosti. Ameriška opcija
+daje pravico izvršitve kadarkoli do vključno trenutka zapadlosti. Poznamo tudi druge vrste opcij, ki jih skupno imenujemo eksotične opcije.
 
-An options is closly linked to it's underlying stock. Meaning that its price changes as 
-the price of the underlying changes.
+Označimo s $t=0$ čas izadje opcije, s $t=T$ pa čas zapadlosti.
+Naj bo $S_t$ cena osnovnega premoženja ob času $t\in [0,T]$.
+Vrednost opcije za nosilca opcije je enaka razliki med ceno osnovnega premoženja v času
+izvršitve in izvršilno ceno, če je zanj pozitivna. Sicer opcije ne izvrši in je njena
+vrednost enaka $0$. Izplačilo evropske nakupne opcije ob času T je
+\begin{equation}
+    C_T = max\{S_T-K,0\},
+\end{equation}
+saj se mu v primeru, ko je $S_T<K$ ne splača izvršiti opcije, torej je njeno izplačilo $0$.
+Izplačilo evropske prodajne opcije pa je enako 
+\begin{equation}
+    P_T = max\{0, K-S_T\}.
+\end{equation}
+
+Kupec opcije mora ob nakupu opcije plačati premijo. Kako visoka je ta premija, je precej komplicirano izračunati.
+Premijo oziroma vrednost opcije bomo računali z Black-Scholesovim modelom. Cena evropske prodajne opcije ob času $t$ je 
+\begin{equation}\label{prodajna}
+    V_t = Ke^{-R(T-t)}\Phi(-d_2)-S_t\Phi(-d_1),
+\end{equation}
+kjer je
+\begin{itemize}
+    \item $K$ izvršilna cena opcije,
+    \item $R$ netvegana obrestna mera,
+    \item $S_0$ cena temelja ob času $0$.
+\end{itemize}
+Konstanti $d_1$ in $d_2$ izračunamo s formulama
+\begin{equation}
+    \begin{aligned}
+        d_1 &= \frac{\ln(\frac{S_0}{K}e^{RT})+\frac{\sigma^2}{2}T}{\sigma\sqrt{T}},\\
+    d_2 &= d_1-\sigma\sqrt{T}. 
+    \end{aligned}
+\end{equation}
+Tu je $\sigma$ volatilnost donosov temelja. Podobno formulo dobimo za izračun premije evropske nakupne opcije
+\begin{equation}\label{nakupna}
+    V_t = S_t\Phi(d_1) - Ke^{-R(T-t)}\Phi(d_2).
+\end{equation}
+
+Glavna predpostavka v tem modelu je, da ima temelj zvezno neodvisno enako normalno porazdeljene donose.
+Naš cilj bo oceniti tveganje opcij glede na temelj. To bomo naredili s t. i. grškimi parametri.
 
 %While the type (put or call) and the underlying stock are self-evident and essentially standardized, the striking price and expiration date require more
 %explanation. 
@@ -194,13 +218,30 @@ Osnovna različica VaR predpostavlja linearno povezavo med donosi in spremembo v
 oziroma da je relativna sprememba portfelja linearna funkcija donosa temelja (delnice, obveznice \dots)
 Tu predpostavljamo, da imajo donosi vrednostnega papirja večrazsežno normalno porazdelitev.  
 
-Pri opcijskih pozicijah je nelinearna povezava med spremembo vrednosti pozicije in donosom. 
+Vrednost pozicij pri izvedenih finančnih instrumentih je odvisna od vrednosti od nekega drugega vrednostnega papirja.
+Pri opcijskih pozicijah je nelinearna povezava med spremembo vrednosti pozicije in donosom temelja. 
 To lahko pojasnimo s preprosto opcijo na delnico. Cena opcije je $V(S_t,K,T,R,\sigma)$ v 
 odvisnosti od cene delnice $S_t$ ob času $t$, izvršilne cene $K$, časa dospelosti $T$. 
 Cena opcije je odvisna tudi od netvegane obrestne mere $R$ nekega vrednostnega papirja, ki ima enak
-čas dospelosti kot opcija ter od standardnega odklona $\sigma$ cene delnice v časovnem obdobju opcije. 
+čas dospelosti kot opcija ter od standardnega odklona $\sigma$ cene temelja v časovnem obdobju opcije. 
 Zato moramo uporabiti drugačen pristop za računanje VaR za portfelj iz opcij. 
-Uporabili bomo delta, gama in delta-gama pristop.
+
+\begin{figure}\label{payoff}
+    \includegraphics[width=0.7\textwidth]{payoff.jpg}
+    \caption{Linearna in nelinearna funkcija izplačila.}
+\end{figure}
+
+Na sliki \ref{payoff} je prikazana vrednost pozicije glede na temelj. 
+Ravni črti predstavljata linearno zvezo med vrednostjo pozicije in vrednostjo temelja. 
+Vrednost evropske opcije (nakupne ali prodaje) bomo izrazili z "delta". To pomeni, da zveza
+med vrednostjo pozicije in vrednostjo temelja ne bo več linearna ampak nelinearna. Na grafu to 
+predstavlja siv graf funkcije. Opazimo, da ni več linearna funkcija.
+V primeru, ko je zveza linearna, je "delta" $-1$ ali $1$. Če pa je "delta" katero koli drugo število
+med $-1$ in $1$, govorimo o nelinearni povezavi med vrednostjo pozicije in vrednostjo temelja.
+Dodatno potrebujemo parameter "gamma", s katerim bomo definirali konveksnost funkcije. Pri linearnih zvezah
+je "gamma" vedno enak $0$ in imajo konstanten naklon. Pri nelinearnih zvezah, recimo pri opcijah, pa je 
+"gamma" vedno neničelno nenegativno število. Od tod izhajajo različni pristopi za računanje nelinearnega VaR.
+
 
 Pri vseh različicah še vedno predpostavljamo, da so donosi vrednostnih papirjev porazdeljeni normalno. 
 Dodatno dopuščamo nelinearno zvezo med vrednostjo pozicije in donosi temelja. Natančneje, dovoljujemo gama učinek,
