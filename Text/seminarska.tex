@@ -127,10 +127,6 @@ krajše časovno obdobje, recimo dan, teden ali nekaj tednov.
 To pomeni, če je VaR za neko sredstvo $100$ milijonov evrov v obdobju enega tedna s stopnjo zaupanja $95\%$,
 potem je samo $5\%$ verjetnost, da bo vrednost sredstva padla za več kot $100$ milijonov evrov v katerem koli tednu.
 
-Pri opcijah pa ni tako preprosto, saj mora ocena tveganja  upoštevati nelinarno gibanje cen (gamma učinek)
-in posredna volatilnost (vega učinek). % implied volatilities
-Za opcije bomo nelinearno gibanje cen ocenili analitično (delta-gamma) ali s simulacijo. 
-
 Let us now give a formal definiton of value at risk. 
 \begin{definicija}
 Let $X$ be a random variable on a probability space $(\Omega, \f, \p)$ and $\alpha \in (0, 1)$.
@@ -140,61 +136,82 @@ $$
 $$
 \end{definicija}
 
-
-\subsection{Kako izračunamo VaR?}
-
-Obstajajo trije osnovni pristopi, kako izračunati VaR. Lahko jo izračunamo analitično
+Obstajajo trije osnovni pristopi, kako izračunati VaR. Lahko ga izračunamo analitično
 s predpostavkami o porazdelitvah donosov za tržna tveganja, zraven pa moramo upoštevati variance
 in kovariance med temi tveganji. VaR lahko ocenimo tudi s hipotetičnim portfeljem preko historičnih 
 podatkov ali z Monte Carlo simulacijo. 
 
-\subsubsection{Mean variance framework}
+Nas bo zanimalo, kaj se zgodi, če imamo sredstvo, ki je izvedeni finančni instrument. V tem primeru moramo 
+nekoliko modificirati VaR.
+Recimo pri opcijah, moramo pri oceni tveganja upoštevati nelinarno gibanje cen (gamma učinek)
+in posredna volatilnost (vega učinek). % implied volatilities
+Za opcije bomo nelinearno gibanje cen ocenili analitično (delta-gamma) ali s simulacijo.
 
-\subsubsection{Historical simulation}
-% tega načina za opcije ne moremo uporabit, ker je težko zbrati historične podatke za opcije
-% izpostavljenost bi morala biti pogojevana na veliko
-% karakteristik, da bi lahko izračunali standardni var
-% te so: volatilnost, čas dospelosti, S_t, strike price
-% če to vse vstavimo v B-S model postane model nelinear zaradi narave derivativov
 
+\subsection{Kako izračunamo VaR}
+
+\subsubsection{Variančno-kovariančna metoda}
+
+Variančno-kovariančna metoda je parametrična metoda, ki predpostavlja, da so donosi, 
+kateri določajo vrednost portfelja,
+porazdeljeni normalno. Slučajna spremenljivka je porazdeljena normalno s parametroma $\mu$ (povprečje)
+in varianco $\sigma^2$ oziroma standardnim odklonom $\sigma$, če je gostota podana z 
+\begin{equation}
+    f(x) = \frac{1}{\sigma\sqrt{2\pi}}exp[-\frac{1}{2}(\frac{x-\mu}{\sigma})^2],
+\end{equation}
+kjer je $x\in \R$. Ta metoda je uporabna, ker je v celoti definirana samo z dvema parametroma. 
+Hkrati nam zagotavlja direktne formule za izračun kumulativnih porazdelitvenih funkcij; velja namreč
+\begin{equation}
+    P(X<x) = \mu + \alpha_{cl}\sigma,
+\end{equation}
+kjer je $cl$ izbrana stopnja zaupanja (npr. $95\%$) in $\alpha_{cl}$ je standardna normalna spremenljivka pri izbrani stopnji zaupanja
+(npr. $\alpha_{0.95}=1.645$). 
+
+VaR za eno naložbo je potem enak
+\begin{equation}
+    VaR = MV\cdot \alpha_{cl} \cdot \sigma,
+\end{equation}
+kjer je $MV$ tržna vrednost temelja. Pri izračunu VaR za portfelj, ki je sestavljen iz več pozicij,
+moramo upoštevati tudi diverzifikacije oziroma razpršitve naložb.
+% dodaj še natančnejši opis
+Pri opcijah se ta metoda izkaže za učinkovito, potrebno jo je le nekoliko modificirati. Ker je vrednost opcije odvisna od več dejavnikov 
+ter imamo nelinearno povezavo med vrednostjo opcije in donosnostjo temelja, moramo izračunati še nekaj dodatnih parametrov, da bo rezultat korekten.
+
+\subsubsection{Zgodovinska simulacija}
+Zgodovinska simulacija omogoča zelo preprosto in intuitivno oceno VaR. Temelji na vrstnem redu opazovanih podatkov;
+recimo, da imamo $100$ opažanj, potem je šesto po vrsti VaR pri stopnji zaupanja $95\%$. 
+Zavedati pa se moramo, da lahko pride do večjih napak pri tem načinu izračuna VaR zaradi ekstremnih dogodkov, dolžine opazovanega obdobja, \dots
+Prav tako ta metoda ni primerna za izračun nelinernega VaR oziroma 
+za izračun VaR za opcije, saj je historične podatke za opcije težko dobiti in jih med seboj primerjati.
 
 \subsubsection{Monte Carlo simulacija}
-% uporabno, ker lahko upoštevamo nelinarnost
+Monte Carlo simulacija je danes v praksi zelo uporabna saj je precej prilagodljiva za veliko različic VaR. 
+Izkazalo se bo, da je uporabna tudi za izračun nelinearnega VaR.
 
-\subsection{Prednosti in slabosti}
-% tu je mišljeno tega navadnega -> zato vpeljemo non-linear
-% pri derivativih imamo nelinearno izpostavljenost k tveganju -> Kaj to pomeni?
+\section{Nelinearen VaR}
 
-\section{Nonlinear VaR}
-% uporablja se za derivative
-% tiste FI, ki imajo nelinearno izpostavljenost k tveganju
-% mapping!
-% B-S formula, od tod potem sledi da je izpostavljenost nelinearna
-% analytical approximation and structured monte carlo simulation
-VaR meri tržno tveganje portfelja. Tu si portfelj predstavljamo kot množico 
-pozicij, od katerih je vsaka sestavljena iz osnovnih vrednostnih papirjev. Zato razvrstimo pozicije
-v preprostejše, ki so linearne, in v pozicije izvedenih finančnih instrumentov, ki jih lahko še naprej
-razdelimo v linearne ali nelinearne pozicije izvedenih finančnih instrumentov.
-
-% primer preproste pozicije
-
-Osnovna različica VaR predpostavlja linearno povezavo med donosi in spremembo vrednosti pozicije.
-Tu predpostavljamo, da imajo donosi vrednostnega papirja večrazsežno pogojno normalno porazdelitev.  
+Osnovna različica VaR predpostavlja linearno povezavo med donosi in spremembo vrednosti pozicije
+oziroma da je relativna sprememba portfelja linearna funkcija donosa temelja (delnice, obveznice \dots)
+Tu predpostavljamo, da imajo donosi vrednostnega papirja večrazsežno normalno porazdelitev.  
 
 Pri opcijskih pozicijah je nelinearna povezava med spremembo vrednosti pozicije in donosom. 
-To lahko pojasnimo s preprosto opcijo na delnico. Cena opcije je $V(P_t,K,\tau,\rho,\sigma)$ v 
-odvisnosti od cene delnice $P_t$ ob času $t$, izvršilne cene $K$, časa dospelosti $\tau$. 
-Cena opcije je odvisna tudi od netvegane obrestne mere $\rho$ nekega vrednostnega papirja, ki ima enak
-čas dospelosti kot opcija ter od standardnega odklona $\sigma$ logaritma cene delnice v časovnem obdobju opcije.
+To lahko pojasnimo s preprosto opcijo na delnico. Cena opcije je $V(S_t,K,T,R,\sigma)$ v 
+odvisnosti od cene delnice $S_t$ ob času $t$, izvršilne cene $K$, časa dospelosti $T$. 
+Cena opcije je odvisna tudi od netvegane obrestne mere $R$ nekega vrednostnega papirja, ki ima enak
+čas dospelosti kot opcija ter od standardnega odklona $\sigma$ cene delnice v časovnem obdobju opcije. 
+Zato moramo uporabiti drugačen pristop za računanje VaR za portfelj iz opcij. 
+Uporabili bomo delta, gama in delta-gama pristop.
 
-Pri delta-gama pristopu še vedno predpostavljamo, da so donosi vrednostnih papirjev normalno porazdeljeni. 
+Pri vseh različicah še vedno predpostavljamo, da so donosi vrednostnih papirjev porazdeljeni normalno. 
 Dodatno dopuščamo nelinearno zvezo med vrednostjo pozicije in donosi temelja. Natančneje, dovoljujemo gama učinek,
 torej da relativna sprememba portfelja iz derivativov (v našem primeru opcij) ni več normalno porazdelja. 
 Zaradi tega ne moremo več VaR definirati kot 1.65 krat standardni odklon portfelja. Namesto tega VaR 
 izračunamo v dveh glavnih korakih. Najprej izračunamo prve štiri momente porazdelitve donosa portfelja, tj.,
 povprečje, standardni odklon, \textbf{skewness}, \textbf{kurtosis}. Potem poiščemo 
 porazdelitev, ki ima enake prve štiri momente kot porazdelitev donosa portfelja in izračunamo peti 
-percentil (ali prvi, odvidno od problema). Od tod potem dobimo VaR.
+percentil (ali prvi, odvidno od problema). Od tod dobimo VaR.
+
+
 
 
 \end{document}
