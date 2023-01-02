@@ -251,8 +251,240 @@ izračunamo v dveh glavnih korakih. Najprej izračunamo prve štiri momente pora
 povprečje, standardni odklon, \textbf{skewness}, \textbf{kurtosis}. Potem poiščemo 
 porazdelitev, ki ima enake prve štiri momente kot porazdelitev donosa portfelja in izračunamo peti 
 percentil (ali prvi, odvidno od problema). Od tod dobimo VaR.
+\newpage
+
+\section{Greeks}
+
+As we want to calculate the theoretical value of an 
+option and understand its changes in response to 
+various factors, we now take a closer look at some of the 
+"Greeks". \\
+
+In the context of options trading, they present a 
+set of sensitivity measures, usually computed 
+using the Black-Scholes formula. 
+
+And while they are relevant to hedging strategies 
+(which is especially true for delta and gamma),
+these derivatives are typically calculated because 
+they can give us an idea about how rapidly 
+the value of our portfolio is effected when there is a 
+change in one of the parameters underlying the 
+Black-Scholes model.
 
 
+\subsection{Delta}
+
+The delta of an option ($\Delta$) 
+is a theoretical estimate 
+of how much an option price would change 
+relative to a change in the price of the underlying asset.
+
+Using symbols as defined in sections 1 and 3, 
+we can present this first-order sensitivity of an option
+with respect to the underlying price 
+as 
+$$
+\Delta = \frac{\partial V}{\partial S},
+$$ 
+where $\Delta\in [-1,1]$.
+\newline
+
+If an option's 
+delta is equal to zero, the 
+option price barely moves when the price of the 
+underlying asset changes. 
+If an option's delta is positive, then 
+that option's price will increase 
+when the underlying asset's price 
+increases, while negative delta indicates a decrease
+in the option price as the underlying 
+asset's price increases. 
+
+Generally, puts have a negative delta  
+as their value moves down when the value of the 
+underlying asset goes up. Similarly, calls 
+have a positive delta with their value going up 
+when the underlying asset moves up. 
+
+This means that short calls and long puts have 
+a delta with values between -1 and 0, while 
+long calls and short puts have a delta
+with values ranging between 0 and 1.
+If an option's delta is very close to -1 or 1 
+(depending on whether it is call or put), 
+then this option's price responds very strongly 
+to a change in underlying asset's value. 
+
+
+In case of a european call option, 
+using the above formula would give us 
+its delta equal to $\Phi(d_1)$. \\
+
+However, while small changes in the underlying asset's
+price do change the option price by approximately delta,
+such approximations get less and less reliable as 
+the asset's price change gets greater.
+
+
+
+
+
+\subsection{Gamma}
+
+Gamma, or second-order sensitivity of an option 
+with respect to the underlying asset's price, 
+measures the change in an option's delta relative to changes 
+in the underlying asset price. 
+
+We can calculate it as follows:
+$$
+\Gamma = \frac{\partial^2 V}{\partial S^2}.
+$$
+
+
+Higher values of an option's gamma indicate that very small 
+price change of the underlying asset could lead to 
+big changes in the option's delta value.
+
+Options that are at-the-money (when their strike prices 
+are equal to the price of underlying asset) have the 
+highest gamma values as the delta of such an option is 
+very sensitive to price change of the underlying asset. 
+As this underlying asset's price moves further away 
+from the option's strike price in either direction, 
+gamma values decrease. 
+
+Long positions always have a positive gamma, while 
+shorts have a negative one.
+ 
+
+
+\subsection{Theta}
+
+Measuring an options's sensitivity to time, 
+theta tell us how susceptible is an option's value 
+to the passage of time. 
+
+Earlier in this section, we have seen how delta and gamma
+values of an option are effected by the price movement 
+of the underlying asset in comparison to the option price.
+
+In case of theta, we look at the effect of time decay 
+on an option. All other factors being equal, the theta of 
+an option represents the amount by which the option's value 
+will decrease each day. It is calculated as the following 
+derivative:
+$$
+\Theta = \frac{\partial V}{\partial t}.
+$$
+
+Its value is usually negative - with each passing day, 
+an option's potential for profitability drops.
+As an option gets closer to its expiration date, 
+the rate of time decay gets faster.
+
+We understand an option's intrinsic value as a measure 
+of the actual value of the strike price compared to the 
+current market price and its extrinsic value as a measure 
+of the part of the premium that is not defined by 
+the intrinsic value, namely the value of being able to 
+hold the option and the opportunity for the option to gain 
+value as the underlying asset moves in price. Consequentially,
+the closer that an option is to expiration, the smaller 
+its extrinsic value becomes - at the expiration date, 
+an option's extrinsic value is zero.
+
+Theta is then the measure that determines the decline in 
+an option's extrinsic value over time.
+
+Long positions generally have a negative theta while 
+short positions have a positive one. 
+
+
+
+
+
+\section{Delta-Gamma-Theta Approach}
+
+Let us now take a closer look 
+at the methodology for using  
+the delta, gamma and theta of 
+options in the VaR calculation. 
+
+
+Overall, incorporating these greeks into the VaR calculation 
+can provide a more accurate estimate of the risk of 
+loss on a portfolio of options.
+
+By taking into account the price sensitivity and time 
+decay of each option, this analytical approach can better 
+reflect the potential impact of market movements on 
+the portfolio's value. Based on the theoretical 
+background covered in section 4, the importance of 
+each of the three greeks used for this VaR calculation is as follows:
+
+\begin{itemize}
+    \item Delta is important for VaR analysis 
+    because it estimates the potential change 
+    in the option's value associated with a 
+    unit shift in the underlying asset's price;
+    \item Gamma plays an increasingly important role in 
+    VaR calculations as the underlying asset price 
+    fluctuates more significantly;
+    \item Theta is an important consideration for VaR 
+    analysis, because time decay is a major factor
+    in the approximation of the overall risk of the portfolio.
+\end{itemize}
+
+For example, 
+a portfolio with a high gamma may be 
+more sensitive to changes in the 
+underlying asset's price, 
+while a portfolio with a high theta 
+may be more sensitive to the passage 
+of time.\\
+
+
+The simplest approximation using greeks would estimate changes 
+in the option value with a linear model - in this case, we would 
+only use delta-approximation. This would be a relatively accurate 
+model only when the price of the underlying asset would not undergo any 
+significant changes. The reason for this is in delta being a linear 
+approximation of a non-linear relationship between option value and underlying 
+asset's price. 
+
+This may be improved with inclusion of gamma, which also accounts for 
+non-linear effects of change as it introduces skewness into the price distribution.
+
+
+Finally, we add theta into the equation to improve the accuracy of the calculation 
+with inclusion of the time decay.\\
+
+And while this approach does not necessitate any simulations,
+we do need (besides the delta, gamma and theta 
+parameters) a covariance matrix and position values. 
+
+
+
+
+
+\subsection{Limitations}
+
+There are, however, some limitations to the usage of such an approach
+when calculating VaR. 
+
+Namely, it may not be suitable for options portfolios with more complex 
+risk profiles, such as those with illiquid assets. 
+It is also subject to model risk (like any statistical model),
+so it may produce inaccurate results due to errors in the 
+assumptions or parameters used in the model.
+
+And even as it does provide, as stated above, 
+a more comprehensive and accurate assessment of the risk 
+of loss on a portfolio of options, it may still not be 
+sufficient to capture the full range of risks faced by 
+an options portfolio.
 
 
 \end{document}
