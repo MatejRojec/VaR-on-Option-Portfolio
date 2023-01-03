@@ -380,8 +380,20 @@ then the delta will change (increase) from 0.25 to 0.30.
 Let's look at one more example. We will assume that a Stock B January 50 call has a 
 delta of 0.25 and a gamma of 0.05, with Stock B at a current price of 49. 
 This means that if the call will move two point up to 51
-then the delta will change (increase) from 0.25 to 0.35.
+then the delta will change (increase) from 0.25 to 0.35.,
+because of the gamma.
 In this case the delta increased by 0.10.
+
+Obviously, the above example is flawed, as the
+delta cannot keep increasing by 0.05 each time 
+Stock B gains another point in price, for it will eventually exceed 1.00,
+and we know that for call options the Delta has an upper bound of 1.
+Therfore it is obvious that the gamma has to change.
+In general, the gamma is at its maximum point when the stock is near the strike of the
+option.
+As the stock moves away from the strike in either direction, the gamma
+decreases, approaching its minimum value of zero. 
+
 
 Higher values of an option's gamma indicate that very small 
 price change of the underlying asset could lead to 
