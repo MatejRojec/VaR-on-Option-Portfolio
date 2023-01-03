@@ -413,8 +413,11 @@ very sensitive to price change of the underlying asset.
 As this underlying asset's price moves further away 
 from the option's strike price in either direction, 
 gamma values decrease. 
-Long positions always have a positive gamma, while 
-shorts have a negative one.
+Long options, whether puts or calls, have positive gamma, while short options
+have negative gamma. Thus, a strategist with a position that has positive gamma has
+a net long option position and is generally hoping for large market movements.
+Conversely, if one has a position with negative gamma, it means he has shorted
+options and wants the market to remain fairly stable. 
  
 Another property of gamma is useful to know as well. 
 As expiration nears, the gamma of at-the-money options increases dramatically.  
@@ -427,6 +430,10 @@ weeks or months of life remaining.
 Contrary out-of-the-money options display a different relationship between gamma and
 time to expirery. An out-of-the-money option that is about to expire has a very small
 delta, and hence a very small gamma.
+
+The volatility of the underlying security also plays a part in gamma. 
+At-themoney options on less volatile securities will have higher gammas than similar options
+on more volatile securities. 
 
 
 \subsection{The Theta}
@@ -471,8 +478,55 @@ Long positions generally have a negative theta while
 short positions have a positive one. 
 
 
-\section{The Vega}
+\subsection{The Vega}
 
+There is no letter in the Greek alphabet called ``vega''.
+Thus, some strategists, prefer to use a real Greek letter, 
+``tau'', to refer to this risk measure, however 
+we will use ``vega''.
+Vega measures sensitivity to volatility. 
+Vega is the derivative of the option value with respect to the volatility of the underlying asset.
+Volatility in this sense is a measure of how quickly the underlying security moves around. 
+We usually calculate it as the standard deviation of stock prices over some
+period of time, generally annualized.
+A stock with higher volatility is therfore more volatile.
+It is calculated as the following derivative:
+$$ 
+\mathcal{V}  = \frac{\partial V}{\partial \sigma}
+$$
+
+Vega is the amount by which the option price changes when the
+volatility changes. Vega is therfore always a positive number, whether it refers to
+a put or a call. 
+
+It is logical that more volatile stocks have more expensive options. 
+Increasing volatility, means that the price of an option will rise. 
+Falling volatility, means that the price of an option will fall. 
+The vega is merely an attempt to quantify how much the
+option price will increase or decrease as the volatility moves, 
+all other factors being equal. 
+
+Let's look at company D is at 49, and the January 50 call is selling for 3.50. The
+vega of the option is 0.10, and the current volatility of company D is 30\%.
+If the volatility had instead decreased by 1 percent to 29\%, then the January 50
+call would have decreased to 3.40 (a loss of 0.10, the amount of the vega).
+If the volatility increases by one percentage point or 1 \% to 31 \%, then the vega
+indicates that the option will increase in value by 0.10, to 3.60. 
+
+Vega is greatest for at-the-money options and approaches zero as the option is
+deeply in- or out-of-the-money. Again, this is common sense, since a deep in- or out
+of-the-money option will not be affected much by a change in volatility. In addition,
+for at-the-money options, longer-term options have a higher vega than short-term
+options. An at-the-money option with on
+day to expiration will not be overly affected by any change in volatility, due to its
+pending expiration. However, a three-month at-the-money option will certainly be
+sensitive to changes in volatility.
+
+Vega does not directly correlate with either delta or gamma. One could have a
+position with no delta and no gamma (delta neutral and gamma neutral) and still have
+exposure to volatility. This does not mean that such a position would be undesirable;
+it merely means that if one had such a position, they would have removed most of the
+market risk from his position and would be concerned only with volatility risk. 
 
 \section{Delta-Gamma-Theta Approach}
 
