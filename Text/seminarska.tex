@@ -253,7 +253,8 @@ porazdelitev, ki ima enake prve štiri momente kot porazdelitev donosa portfelja
 percentil (ali prvi, odvidno od problema). Od tod dobimo VaR.
 \newpage
 
-\section{Greeks}
+\section{The Greeks}
+
 
 As we want to calculate the theoretical value of an 
 option and understand its changes in response to 
@@ -273,12 +274,15 @@ change in one of the parameters underlying the
 Black-Scholes model.
 
 
-\subsection{Delta}
+
+\subsection{The Delta}
 
 The delta of an option ($\Delta$) 
 is a theoretical estimate 
 of how much an option price would change 
 relative to a change in the price of the underlying asset.
+It expresses the amount by which an option changes for a 1-point 
+move in the underlying security.
 
 Using symbols as defined in sections 1 and 3, 
 we can present this first-order sensitivity of an option
@@ -287,8 +291,28 @@ as
 $$
 \Delta = \frac{\partial V}{\partial S},
 $$ 
-where $\Delta\in [-1,1]$.
-\newline
+where $\Delta\in [0,1]$ for calls and $\Delta\in [-1,0]$ for puts.
+Stated in another way, it is the percentage of any
+stock price change that will be reflected in the change of the 
+price of the option. 
+
+Let's look at an example. We will assume that a Stock A January 50 call has a delta of 0.25 
+with Stock A at a current price of 49. This means that the call will move 
+25\% as fast as the stock will move. So, if Stock A
+jumps to 51, a gain of 2 points, then the January 50 call can be expected to increase
+in price by 0,5 point (25\% of the stock increase).
+
+There is one other interpretation of the delta that is perhaps of less practical
+use, but is still worth mentioning.
+If we ignore the sign of the delta (positive for
+calls, negative for puts),
+the delta is often also thought of as the probability of the
+option being in-the-money at expiration. 
+That is, if Stock A price is 50 and the January 55 call has
+a delta of 0.40, then there is a 40\% probability that Stock A will be over 55 at January
+expiration. 
+Of course, this is only an approximation of the probability because
+interest rates and dividends may distort this interpretation.
 
 If an option's 
 delta is equal to zero, the 
@@ -301,46 +325,58 @@ increases, while negative delta indicates a decrease
 in the option price as the underlying 
 asset's price increases. 
 
-Generally, puts have a negative delta  
-as their value moves down when the value of the 
-underlying asset goes up. Similarly, calls 
-have a positive delta with their value going up 
-when the underlying asset moves up. 
+Put deltas are expressed as negative numbers to indicate that put prices move
+in the opposite direction from the underlying security. 
+Deltas of out-of-the-money options are smaller 
+compared to in-the-money options, going toward 0 as the option becomes
+very far out-of-the-money. 
 
 This means that short calls and long puts have 
 a delta with values between -1 and 0, while 
 long calls and short puts have a delta
 with values ranging between 0 and 1.
 If an option's delta is very close to -1 or 1 
-(depending on whether it is call or put), 
-then this option's price responds very strongly 
-to a change in underlying asset's value. 
-
-
+then it is deeply in-the-money
+(depending on whether it is put or call).
+% Also means it's deep in the money 
 In case of a european call option, 
 using the above formula would give us 
-its delta equal to $\Phi(d_1)$. \\
+its delta equal to $\Phi(d_1)$. 
 
 However, while small changes in the underlying asset's
 price do change the option price by approximately delta,
 such approximations get less and less reliable as 
 the asset's price change gets greater.
 
+The volatility of the underlying stock has an effect on delta also. If the stock is not
+volatile, then in-the-money options have a higher delta, and out-of-the-money
+options have a lower delta.
 
 
-
-
-\subsection{Gamma}
+\subsection{The Gamma}
 
 Gamma, or second-order sensitivity of an option 
 with respect to the underlying asset's price, 
 measures the change in an option's delta relative to changes 
 in the underlying asset price. 
+Simply stated, the gamma is how fast the delta changes with respect to changes in the
+underlying stock price.
 
 We can calculate it as follows:
 $$
 \Gamma = \frac{\partial^2 V}{\partial S^2}.
 $$
+
+We have already stated before that the delta of a call option 
+increases as the call moves more from out-of-the-money to in-the-money.
+The gamma is in fact only a precise measurment of how fast the delta is 
+increasing.
+
+Let's look at an example. We will assume that a Stock B January 50 call has a delta of 0.25
+and a gamma of 0.25, with Stock B at a current price of 49. 
+This means that if the call will move one point up to 50
+then the delta will change (increase) from 0.25 to 0.3.
+
 
 
 Higher values of an option's gamma indicate that very small 
@@ -360,7 +396,7 @@ shorts have a negative one.
  
 
 
-\subsection{Theta}
+\subsection{The Theta}
 
 Measuring an options's sensitivity to time, 
 theta tell us how susceptible is an option's value 
@@ -402,7 +438,7 @@ Long positions generally have a negative theta while
 short positions have a positive one. 
 
 
-
+\section{The Vega}
 
 
 \section{Delta-Gamma-Theta Approach}
