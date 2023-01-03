@@ -394,6 +394,14 @@ option.
 As the stock moves away from the strike in either direction, the gamma
 decreases, approaching its minimum value of zero. 
 
+Let's look at an example of the stated above. 
+We will assume that a Stock B January 50 call has a 
+delta of almost 0 at a current price of 25  Stock B per share.
+If the price of Stock B moves up one point to 26, 
+the call is still so far out-of-the-money that the delta
+will still be zero.  Thus, the gamma of this call is zero, 
+since the delta does not change when the stock increases in price by a point.
+
 Higher values of an option's gamma indicate that very small 
 price change of the underlying asset could lead to 
 big changes in the option's delta value.
@@ -405,10 +413,20 @@ very sensitive to price change of the underlying asset.
 As this underlying asset's price moves further away 
 from the option's strike price in either direction, 
 gamma values decrease. 
-
 Long positions always have a positive gamma, while 
 shorts have a negative one.
  
+Another property of gamma is useful to know as well. 
+As expiration nears, the gamma of at-the-money options increases dramatically.  
+Consider an option with a day
+or two of life remaining. If it is at-the-money, the delta is approximately 0.50.
+However, if the stock were to move 2 points higher, the delta of the option would jump 
+to nearly 1.00 because of the short time remaining until expiration. Thus, the gamma
+would be roughly 0.25. as compared to much smaller values of gamma for at-the-money options with several
+weeks or months of life remaining.
+Contrary out-of-the-money options display a different relationship between gamma and
+time to expirery. An out-of-the-money option that is about to expire has a very small
+delta, and hence a very small gamma.
 
 
 \subsection{The Theta}
