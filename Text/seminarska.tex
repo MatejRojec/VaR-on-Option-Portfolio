@@ -448,7 +448,10 @@ of the underlying asset in comparison to the option price.
 In case of theta, we look at the effect of time decay 
 on an option. All other factors being equal, the theta of 
 an option represents the amount by which the option's value 
-will decrease each day. It is calculated as the following 
+will decrease each day. 
+An option with a theta of -0.05 will lose 0.05 for each day that passes
+with no changes in any other market conditions
+It is calculated as the following 
 derivative:
 $$
 \Theta = \frac{\partial V}{\partial t}.
@@ -456,8 +459,12 @@ $$
 
 Its value is usually negative - with each passing day, 
 an option's potential for profitability drops.
-As an option gets closer to its expiration date, 
-the rate of time decay gets faster.
+Very long-term options are not subject to much time decay in one day's time.
+Thus, the theta of a long-term option is nearly zero. On the other hand, short-term
+options, especially at-the-money ones, have the largest absolute theta, since they are
+subject to the ravages of time on a daily basis
+The theta of options on a highly volatile
+stock will be higher than the theta of options on a low-volatility stock.
 
 We understand an option's intrinsic value as a measure 
 of the actual value of the strike price compared to the 
@@ -472,10 +479,17 @@ an option's extrinsic value is zero.
 
 Theta is then the measure that determines the decline in 
 an option's extrinsic value over time.
+The decay is not linear - an option will lose a greater percent of its daily value
+near the end of its life. 
 
 Long positions generally have a negative theta while 
 short positions have a positive one. 
+The theta of an individual option is usually of little interest to the risk maneger.
+The delta or gamma are usually more important. However, as with the
+other risk measures, theta can be computed for an entire portfolio of options.
 
+Note that the underlying itself has a 
+theta of zero, since it cannot lose any value beacuse of time decay. 
 
 \subsection{The Vega}
 
