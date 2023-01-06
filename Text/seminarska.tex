@@ -80,54 +80,77 @@ Ljubljana, \letnica}
 \tableofcontents
 \pagebreak
 
-\section{Osnovno o opcijah}
+\section{Options}
 
-Opcija je pogodba med nosilcem opcije (kupcem) in izdajateljem opcije
-o nakupu oziroma prodaji osnovnega premoženja (temelja) po določeni ceni $K$ imenovani
-izvršilna cena. Če opcija daje nosilcu pravico nakupa temelja, jo imenujemo nakupna opcija, če pa daje pravico prodaje,
-jo imenujemo prodajna opcija. Glede na to, kdaj je možna izvršitev opcije, ločimo več vrst opcij.
-Najbolj preprosta je evropska opcija, ki daje pravico izvršitve samo ob zapadlosti. Ameriška opcija
-daje pravico izvršitve kadarkoli do vključno trenutka zapadlosti. Poznamo tudi druge vrste opcij, ki jih skupno imenujemo eksotične opcije.
+An option is a contract between option holder (buyer) 
+and option writer (seller) that gives the buyer the right - 
+but not the obligation - to buy or sell an underlying asset at a 
+predetermined price $K$ (strike price) within a specific 
+time period.
 
-Označimo s $t=0$ čas izadje opcije, s $t=T$ pa čas zapadlosti.
-Naj bo $S_t$ cena osnovnega premoženja ob času $t\in [0,T]$.
-Vrednost opcije za nosilca opcije je enaka razliki med ceno osnovnega premoženja v času
-izvršitve in izvršilno ceno, če je zanj pozitivna. Sicer opcije ne izvrši in je njena
-vrednost enaka $0$. Izplačilo evropske nakupne opcije ob času T je
+If an option gives its holder the right to buy the underlying asset,
+we call it a call option. On the contrary, if it gives the holder the 
+right to sell said underlying asset, we call it a put option. 
+Depending on when the holder is allowed to exercise the option, 
+there are several different types of options. 
+The simplest is the european option type, which gives the buyer the right to 
+exercise the option no sooner than on the expiration date. 
+Then there are american options - these can be exercised at any point  
+leading up to the expiration date. Other types of options are known 
+under the common name of exotic options.
+
+Let $t=0$ denote the time when the option is issued, $t=T$ its expiration time and
+$S_t$ the price of the underlying asset at time $t\in[0,T]$.
+The value of an option for the option holder is equal to the difference in the 
+price of the underlying asset when the option is exercised and the strike price, 
+if the option holder stands to profit from it. Otherwise, the option is not exercised 
+and its value equals 0. The value of a european call option at its expiration time T is
+
 \begin{equation}
     C_T = max\{S_T-K,0\},
 \end{equation}
-saj se mu v primeru, ko je $S_T<K$ ne splača izvršiti opcije, torej je njeno izplačilo $0$.
-Izplačilo evropske prodajne opcije pa je enako 
+
+as it is not profitable for the buyer to exercise such an option if $S_T<K$.
+
+On the other hand, a european put option's value at its expiration time T is
 \begin{equation}
     P_T = max\{0, K-S_T\}.
 \end{equation}
 
-Kupec opcije mora ob nakupu opcije plačati premijo. Kako visoka je ta premija, je precej komplicirano izračunati.
-Premijo oziroma vrednost opcije bomo računali z Black-Scholesovim modelom. Cena evropske prodajne opcije ob času $t$ je 
-\begin{equation}\label{prodajna}
+When option holder buys an option, he is required to pay a premium. 
+It is quite difficult to calculate just how high this premium should be.
+We will evaluate the option premium, or rather the value of the option
+with the Black-Scholes model.
+
+The price of a european put option at time $t$ is
+
+\begin{equation}\label{put}
     V_t = Ke^{-R(T-t)}\Phi(-d_2)-S_t\Phi(-d_1),
 \end{equation}
-kjer je
+where 
 \begin{itemize}
-    \item $K$ izvršilna cena opcije,
-    \item $R$ netvegana obrestna mera,
-    \item $S_0$ cena temelja ob času $0$.
+    \item $K$ is the strike price,
+    \item $R$ is the risk-free interest rate,
+    \item $S_0$ is the underlying asset's value at time $0$.
 \end{itemize}
-Konstanti $d_1$ in $d_2$ izračunamo s formulama
+Constants $d_1$ in $d_2$ can be calculated using the following formulas:
 \begin{equation}
     \begin{aligned}
         d_1 &= \frac{\ln(\frac{S_0}{K}e^{RT})+\frac{\sigma^2}{2}T}{\sigma\sqrt{T}},\\
     d_2 &= d_1-\sigma\sqrt{T}. 
     \end{aligned}
 \end{equation}
-Tu je $\sigma$ volatilnost donosov temelja. Podobno formulo dobimo za izračun premije evropske nakupne opcije
-\begin{equation}\label{nakupna}
+Here $\sigma$ denotes the underlying asset's volatility.
+
+A similar formula is used for evaluation of european call option premium:
+\begin{equation}\label{call}
     V_t = S_t\Phi(d_1) - Ke^{-R(T-t)}\Phi(d_2).
 \end{equation}
 
-Glavna predpostavka v tem modelu je, da ima temelj zvezno neodvisno enako normalno porazdeljene donose.
-Naš cilj bo oceniti tveganje opcij glede na temelj. To bomo naredili s t. i. grškimi parametri.
+The main assumption of this model is that the underlying asset's returns are 
+independent with identical uniform normal distributions.
+Our goal is to assess the risk of an option based on its underlying asset.
+We will approach this using so called greek parameters.
 
 %While the type (put or call) and the underlying stock are self-evident and essentially standardized, the striking price and expiration date require more
 %explanation. 
@@ -142,115 +165,150 @@ Naš cilj bo oceniti tveganje opcij glede na temelj. To bomo naredili s t. i. gr
 % grki
 % zaščitni portfelj
 
-\section{Osnovno o VaR}
+\section{Value at Risk}
 
-"Value at Risk" oziroma VaR je mera, ki je opredeljena kot največja potencialna sprememba v vrednosti portfelja pri določeni,
-dovolj visoki stopnji zaupanja za vnaprej določeno časovno obdobje. Ponavadi je stopnja zaupanja $95\%$ ali $99\%$.
-VaR nam pove, koliko lahko izgubim z $x\%$ verjetnostjo v nekem časovnem obdobju. Ponavadi se uporablja
-krajše časovno obdobje, recimo dan, teden ali nekaj tednov.
-To pomeni, če je VaR za neko sredstvo $100$ milijonov evrov v obdobju enega tedna s stopnjo zaupanja $95\%$,
-potem je samo $5\%$ verjetnost, da bo vrednost sredstva padla za več kot $100$ milijonov evrov v katerem koli tednu.
+"Value at Risk" or VaR is a measure, defined as the maximum potential change in portfolio value 
+at a certain (high enough) confidence level for a predetermined time frame.
+Usually, the $95\%$ or $99\%$ confidence levels are used.
+
+VaR tells us how big our loss might be with $x\%$ in a specific time period.
+The latter is often a day, a week, or few weeks at most.
+This means that if VaR for an asset is a 100 million euros in the period of one week 
+with a $95\%$ confidence level, then there is only $5\%$ probability that this asset's value 
+will fall for more than a 100 million euros throughout any week.
 
 Let us now give a formal definiton of value at risk. 
 \begin{definicija}
 Let $X$ be a random variable on a probability space $(\Omega, \f, \p)$ and $\alpha \in (0, 1)$.
-VaR$_\alpha(X)$ is defined as the $(1-\alpha)$ quntile of -$X$. So:
+VaR$_\alpha(X)$ is defined as the $(1-\alpha)$ quantile of -$X$. Then
 $$
 \textnormal{VaR}_\alpha(X) := - \inf \{ x \in \R \mid F_X(x) > \alpha \} = F^{-1}_{-X}(1-\alpha).
 $$
 \end{definicija}
 
-Obstajajo trije osnovni pristopi, kako izračunati VaR. Lahko ga izračunamo analitično
-s predpostavkami o porazdelitvah donosov za tržna tveganja, zraven pa moramo upoštevati variance
-in kovariance med temi tveganji. VaR lahko ocenimo tudi s hipotetičnim portfeljem preko historičnih 
-podatkov ali z Monte Carlo simulacijo. 
+There are three basic approaches used for VaR evaluation. We can calculate it 
+analytically using assumed distributions of returns for market risks while also 
+taking into account the variance and covariance between these risks. 
+Another option for VaR assessment is the usage of historical data or, lastly, 
+the Monte Carlo simulation.
 
-Nas bo zanimalo, kaj se zgodi, če imamo sredstvo, ki je izvedeni finančni instrument. V tem primeru moramo 
-nekoliko modificirati VaR.
-Recimo pri opcijah, moramo pri oceni tveganja upoštevati nelinarno gibanje cen (gamma učinek)
-in posredna volatilnost (vega učinek). % implied volatilities
-Za opcije bomo nelinearno gibanje cen ocenili analitično (delta-gamma) ali s simulacijo.
+Here, we are interested in what happens when we have an asset that is a derivative.
+In such a case, a slight VaR modification is necessary.
+If we take options as an example, we have to take into account the non-linear price movement 
+(the gamma effect) and implied volatilities (vega effect).
+We will show how to evaluate price movement for options both analytically (delta-gamma-theta)
+and with a simulation.
 
+\subsection{VaR Calculation}
 
-\subsection{Kako izračunamo VaR}
+\subsubsection{Variance-covariance method}
 
-\subsubsection{Variančno-kovariančna metoda}
+Variance-covariance method is a parametric method, which assumes that asset returns, determining portfolio value,
+are normally distributed.
 
-Variančno-kovariančna metoda je parametrična metoda, ki predpostavlja, da so donosi, 
-kateri določajo vrednost portfelja,
-porazdeljeni normalno. Slučajna spremenljivka je porazdeljena normalno s parametroma $\mu$ (povprečje)
-in varianco $\sigma^2$ oziroma standardnim odklonom $\sigma$, če je gostota podana z 
+We say that a random variable is normally distributed with parameters $\mu$ and $\sigma^2$ 
+(with $\mu$ representing the mean and $\sigma^2$ representing the variance of the variable,  
+while $\sigma$ stands for its standard deviation) if the probability density function is given as
+ 
 \begin{equation}
     f(x) = \frac{1}{\sigma\sqrt{2\pi}}exp[-\frac{1}{2}(\frac{x-\mu}{\sigma})^2],
 \end{equation}
-kjer je $x\in \R$. Ta metoda je uporabna, ker je v celoti definirana samo z dvema parametroma. 
-Hkrati nam zagotavlja direktne formule za izračun kumulativnih porazdelitvenih funkcij; velja namreč
+
+for $x\in \R$. 
+
+This method is especially useful due to it needing only two parameters to be defined. 
+At the same time it gives us a direct formula to calculate cumulative distribution function as follows:
+
 \begin{equation}
     P(X<x) = \mu + \alpha_{cl}\sigma,
 \end{equation}
-kjer je $cl$ izbrana stopnja zaupanja (npr. $95\%$) in $\alpha_{cl}$ je standardna normalna spremenljivka pri izbrani stopnji zaupanja
-(npr. $\alpha_{0.95}=1.645$). 
 
-VaR za eno naložbo je potem enak
+where $cl$ represents the selected confidence level (e. g. $95\%$) and 
+$\alpha_{cl}$ stands for the standard normal variable with selected confidence level $cl$.
+(e. g. $\alpha_{0.95}=1.645$). 
+
+VaR for an investment therefore equals 
+
 \begin{equation}
     VaR = MV\cdot \alpha_{cl} \cdot \sigma,
 \end{equation}
-kjer je $MV$ tržna vrednost temelja. Pri izračunu VaR za portfelj, ki je sestavljen iz več pozicij,
-moramo upoštevati tudi diverzifikacije oziroma razpršitve naložb.
-% dodaj še natančnejši opis
-Pri opcijah se ta metoda izkaže za učinkovito, potrebno jo je le nekoliko modificirati. Ker je vrednost opcije odvisna od več dejavnikov 
-ter imamo nelinearno povezavo med vrednostjo opcije in donosnostjo temelja, moramo izračunati še nekaj dodatnih parametrov, da bo rezultat korekten.
 
-\subsubsection{Zgodovinska simulacija}
-Zgodovinska simulacija omogoča zelo preprosto in intuitivno oceno VaR. Temelji na vrstnem redu opazovanih podatkov;
-recimo, da imamo $100$ opažanj, potem je šesto po vrsti VaR pri stopnji zaupanja $95\%$. 
-Zavedati pa se moramo, da lahko pride do večjih napak pri tem načinu izračuna VaR zaradi ekstremnih dogodkov, dolžine opazovanega obdobja, \dots
-Prav tako ta metoda ni primerna za izračun nelinernega VaR oziroma 
-za izračun VaR za opcije, saj je historične podatke za opcije težko dobiti in jih med seboj primerjati.
+where $MV$ is the asset's market value.
 
-\subsubsection{Monte Carlo simulacija}
-Monte Carlo simulacija je danes v praksi zelo uporabna saj je precej prilagodljiva za veliko različic VaR. 
-Izkazalo se bo, da je uporabna tudi za izračun nelinearnega VaR.
+Calculation of VaR for a portfolio comprised of multiple positions 
+requires us to also take into account the diversification of investments.
 
-\section{Nelinearen VaR}
+This method is effective with options as well, however a slight modification is needed.
+Because the value of an option is dependant on several factors and
+there is a non-linear relation between the value of an option and 
+the returns of the underlying asset, we to calculate a few additional parameters in 
+order for the result to be correct.
 
-Osnovna različica VaR predpostavlja linearno povezavo med donosi in spremembo vrednosti pozicije
-oziroma da je relativna sprememba portfelja linearna funkcija donosa temelja (delnice, obveznice \dots)
-Tu predpostavljamo, da imajo donosi vrednostnega papirja večrazsežno normalno porazdelitev.  
 
-Vrednost pozicij pri izvedenih finančnih instrumentih je odvisna od vrednosti od nekega drugega vrednostnega papirja.
-Pri opcijskih pozicijah je nelinearna povezava med spremembo vrednosti pozicije in donosom temelja. 
-To lahko pojasnimo s preprosto opcijo na delnico. Cena opcije je $V(S_t,K,T,R,\sigma)$ v 
-odvisnosti od cene delnice $S_t$ ob času $t$, izvršilne cene $K$, časa dospelosti $T$. 
-Cena opcije je odvisna tudi od netvegane obrestne mere $R$ nekega vrednostnega papirja, ki ima enak
-čas dospelosti kot opcija ter od standardnega odklona $\sigma$ cene temelja v časovnem obdobju opcije. 
-Zato moramo uporabiti drugačen pristop za računanje VaR za portfelj iz opcij. 
+\subsubsection{Historical simulation}
+
+Historical simulation is an approach that offers a very simple and intuitive VaR evaluation.
+It is based on the order of the observed data;
+let us assume we have a 100 observations - then the sixth in order is VaR at 
+confidence level $95\%$.
+However, we have to be aware that using this kind of approach can lead to 
+big mistakes in the VaR calculation due to extreme events, the appropriate length of observed period, \dots
+This method is also not suitable for non-linear VaR calculation or VaR for options
+because historical data for options are not as easily acquired and compared.
+
+\subsubsection{Monte Carlo simulation}
+
+The Monte Carlo simulation is considered a very useful method for VaR evaluation
+as it is rather flexible for multiple VaR variations. We shall see in the 
+following sections how it can be used to calculate non-linear VaR. 
+
+\section{Non-linear VaR}
+
+The basic VaR variation assumes a linear connection between the returns and the change in position value,
+or rather that a relative change of portfolio is a linear function of returns (of stocks, bonds\doths).
+Here we assume that returns of a security have multivariate normal distribution.
+
+The value of a derivative position is dependant on the value of some other security.
+In the case of options positions, there is a non-linear relation between the 
+value of the option and the return of the underlying asset.
+This can be explained with a simple stock option. The option price, $V(S_t,K,T,R,\sigma)$, is 
+dependant on the option price $S_t$ at time $t$, strike price $K$, time of maturity $T$,
+risk-free interest rate $R$ of some security with the same time of maturity as the option and 
+the standard deviation $\sigma$ of the underlying asset's price in the option's time frame.
+This is why we have to use a different approach when evaluating VaR for an option portfolio.
+
 
 \begin{figure}\label{payoff}
     \includegraphics[width=0.7\textwidth]{payoff.jpg}
-    \caption{Linearna in nelinearna funkcija izplačila.}
+    \caption{Linear and non-linear function of payoff.}
 \end{figure}
 
-Na sliki \ref{payoff} je prikazana vrednost pozicije glede na temelj. 
-Ravni črti predstavljata linearno zvezo med vrednostjo pozicije in vrednostjo temelja. 
-Vrednost evropske opcije (nakupne ali prodaje) bomo izrazili z "delta". To pomeni, da zveza
-med vrednostjo pozicije in vrednostjo temelja ne bo več linearna ampak nelinearna. Na grafu to 
-predstavlja siv graf funkcije. Opazimo, da ni več linearna funkcija.
-V primeru, ko je zveza linearna, je "delta" $-1$ ali $1$. Če pa je "delta" katero koli drugo število
-med $-1$ in $1$, govorimo o nelinearni povezavi med vrednostjo pozicije in vrednostjo temelja.
-Dodatno potrebujemo parameter "gamma", s katerim bomo definirali konveksnost funkcije. Pri linearnih zvezah
-je "gamma" vedno enak $0$ in imajo konstanten naklon. Pri nelinearnih zvezah, recimo pri opcijah, pa je 
-"gamma" vedno neničelno nenegativno število. Od tod izhajajo različni pristopi za računanje nelinearnega VaR.
+Figure \ref{payoff} shows the positions values relative to underlying securities.
+The two straight lines present a linear relation between the position value and the 
+value of the underlying security.
+We will denote the european option value (be it call or put) with delta. This means that 
+the relation between the position value and the 
+value of the underlying security will no longer be linear, but rather non-linear. 
+This is shown in the figure with the grey graph. 
+Should such a relation be linear, delta takes the value -1 or 1. And if delta is 
+any other number between -1 and 1, the relation between the two values is non-linear.
 
+In addition, we need the gamma parameter to define the convexity of a function.
+For linear relations, gama always equals 0 and the function's slope is a constant.
+Non-linear relations, such as we have with options, gamma always represents a non-negative 
+value, different from 0. This is were the different approaches for non-linear VaR calculation 
+stem from.
 
-Pri vseh različicah še vedno predpostavljamo, da so donosi vrednostnih papirjev porazdeljeni normalno. 
-Dodatno dopuščamo nelinearno zvezo med vrednostjo pozicije in donosi temelja. Natančneje, dovoljujemo gama učinek,
-torej da relativna sprememba portfelja iz derivativov (v našem primeru opcij) ni več normalno porazdelja. 
-Zaradi tega ne moremo več VaR definirati kot 1.65 krat standardni odklon portfelja. Namesto tega VaR 
-izračunamo v dveh glavnih korakih. Najprej izračunamo prve štiri momente porazdelitve donosa portfelja, tj.,
-povprečje, standardni odklon, \textbf{skewness}, \textbf{kurtosis}. Potem poiščemo 
-porazdelitev, ki ima enake prve štiri momente kot porazdelitev donosa portfelja in izračunamo peti 
-percentil (ali prvi, odvidno od problema). Od tod dobimo VaR.
+All variations of the approaches still require us to make the assumption about normal distributed 
+asset returns. We are, however, letting the value of the position and the returns of underlying asset 
+be in a non-linear relation. More precisely, we leave space for a gamma effect (the relative 
+derivative (in our case, options) portfolio change is no longer normally distributed).
+This is why we can no longer define VaR as 1.65 of the standard deviation of portfolio's value.
+Instead, we calculate VaR in two main steps. Firstly, we evaluate the first four moments of the 
+portfolio returns distribution (its mean, standard deviation, skewness and kurtosis).
+Then we find the distribution with the same first four moments as the portfolio returns distribution
+and calculate the fifth percentile (or the first one depending on given problem).
+From this, we get VaR.
 \newpage
 
 \section{The Greeks}
