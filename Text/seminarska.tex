@@ -18,6 +18,9 @@
 \theoremstyle{plain}
 \newtheorem{izrek}{Izrek}
 
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
 % ne spreminjaj podatkov, ki vplivajo na obliko strani
 \textwidth 15cm
 \textheight 24cm
@@ -133,7 +136,7 @@ where
     \item $R$ is the risk-free interest rate,
     \item $S_0$ is the underlying asset's value at time $0$.
 \end{itemize}
-Constants $d_1$ in $d_2$ can be calculated using the following formulas:
+Constants $d_1$ and $d_2$ can be calculated using the following formulas:
 \begin{equation}
     \begin{aligned}
         d_1 &= \frac{\ln(\frac{S_0}{K}e^{RT})+\frac{\sigma^2}{2}T}{\sigma\sqrt{T}},\\
@@ -178,13 +181,14 @@ with a $95\%$ confidence level, then there is only $5\%$ probability that this a
 will fall for more than a 100 million euros throughout any week.
 
 Let us now give a formal definiton of value at risk. 
-\begin{definicija}
+\begin{definition}
 Let $X$ be a random variable on a probability space $(\Omega, \f, \p)$ and $\alpha \in (0, 1)$.
 VaR$_\alpha(X)$ is defined as the $(1-\alpha)$ quantile of -$X$. Then
-$$
-\textnormal{VaR}_\alpha(X) := - \inf \{ x \in \R \mid F_X(x) > \alpha \} = F^{-1}_{-X}(1-\alpha).
-$$
-\end{definicija}
+
+\begin{equation}\label{var}
+    \textnormal{VaR}_\alpha(X) := - \inf \{ x \in \R \mid F_X(x) > \alpha \} = F^{-1}_{-X}(1-\alpha).
+\end{equation}
+\end{definition}
 
 There are three basic approaches used for VaR evaluation. We can calculate it 
 analytically using assumed distributions of returns for market risks while also 
@@ -193,7 +197,7 @@ Another option for VaR assessment is the usage of historical data or, lastly,
 the Monte Carlo simulation.
 
 Here, we are interested in what happens when we have an asset that is a derivative.
-In such a case, a slight VaR modification is necessary.
+In such case, a slight VaR modification is necessary.
 If we take options as an example, we have to take into account the non-linear price movement 
 (the gamma effect) and implied volatilities (vega effect).
 We will show how to evaluate price movement for options both analytically (delta-gamma-theta)
@@ -226,22 +230,16 @@ At the same time it gives us a direct formula to calculate cumulative distributi
 where $cl$ represents the selected confidence level (e. g. $95\%$) and 
 $\alpha_{cl}$ stands for the standard normal variable with selected confidence level $cl$.
 (e. g. $\alpha_{0.95}=1.645$). 
-
-VaR for an investment therefore equals 
-
-\begin{equation}
-    VaR = MV\cdot \alpha_{cl} \cdot \sigma,
-\end{equation}
-
-where $MV$ is the asset's market value.
+VaR for an investment therefore equals \eqref{var}.
 
 Calculation of VaR for a portfolio comprised of multiple positions 
 requires us to also take into account the diversification of investments.
+In this case, VaR depends on coefficient of correlation among parts of the portfolio.
 
 This method is effective with options as well, however a slight modification is needed.
 Because the value of an option is dependant on several factors and
 there is a non-linear relation between the value of an option and 
-the returns of the underlying asset, we to calculate a few additional parameters in 
+the returns of the underlying asset, we have to calculate a few additional parameters in 
 order for the result to be correct.
 
 
@@ -265,7 +263,7 @@ following sections how it can be used to calculate non-linear VaR.
 \section{Non-linear VaR}
 
 The basic VaR variation assumes a linear connection between the returns and the change in position value,
-or rather that a relative change of portfolio is a linear function of returns (of stocks, bonds\doths).
+or rather that a relative change of portfolio is a linear function of returns (of stocks, bonds \dots).
 Here we assume that returns of a security have multivariate normal distribution.
 
 The value of a derivative position is dependant on the value of some other security.
