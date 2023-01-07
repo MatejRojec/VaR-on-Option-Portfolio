@@ -54,7 +54,6 @@
 % naslednje ukaze ustrezno popravi
 \newcommand{\program}{Finančna matematika} % ime studijskega programa: Matematika/Finan'cna matematika
 \newcommand{\imeavtorja}{Tia Krofel, Brina Ribič, Matej Rojec} % ime avtorja
-\newcommand{\imementorja}{dr. Aleš Ahčan} % akademski naziv in ime mentorja
 \newcommand{\naslovdela}{VaR on option portfolio}
 \newcommand{\letnica}{2022}
 
@@ -72,8 +71,7 @@ FAKULTETA ZA MATEMATIKO IN FIZIKO\\[5mm]
 \begin{center}{\large
 \imeavtorja\\[2mm]
 {\bf \naslovdela}\\[10mm]
-Seminarska naloga pri predmetu Upravljanje tveganj\\[1cm]
-Mentor: \imementorja}
+Seminarska naloga pri predmetu Upravljanje tveganj\\[1cm]}
 \end{center}
 \vfill
 
@@ -730,7 +728,9 @@ Using the Monte Carlo method we will simulate
 $N = 10000$ paths of the option in 1000 evenly 
 distributed time stamps in the interval $[0,1]$.
 The paths can be seen in 
-figure \ref{fig:price_path}.
+figure \ref{fig:price_path}. All 
+simulations and figures 
+are generated with help of R.
 
 \begin{figure}[!ht]
     \centering
@@ -865,4 +865,11 @@ as seen from figure \ref{fig:var}.
     \includegraphics[scale=0.65]{var_sim.png}
  \end{figure}
 
+\section{Conclusion}
+
+\begin{thebibliography}{99}
+    \bibitem{DCP}
+    G.~Farin, F.~Hansford, \emph{Discrete Coons patches}, 
+ \end{thebibliography}
+ 
 \end{document}
