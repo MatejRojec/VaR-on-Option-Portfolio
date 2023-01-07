@@ -142,14 +142,14 @@ if the option holder stands to profit from it. Otherwise, the option is not exer
 and its value equals 0. The value of a european call option at its expiration time T is
 
 \begin{equation}
-    C_T = max\{S_T-K,0\},
+    C_T = \max\{S_T-K,0\},
 \end{equation}
 
 as it is not profitable for the buyer to exercise such an option if $S_T<K$.
 
 On the other hand, a european put option's value at its expiration time T is
 \begin{equation}
-    P_T = max\{0, K-S_T\}.
+    P_T = \max\{0, K-S_T\}.
 \end{equation}
 
 When option holder buys an option, he is required to pay a premium. 
@@ -247,7 +247,7 @@ We say that a random variable is normally distributed with parameters $\mu$ and 
 while $\sigma$ stands for its standard deviation) if the probability density function is given as
  
 \begin{equation}
-    f(x) = \frac{1}{\sigma\sqrt{2\pi}}exp[-\frac{1}{2}(\frac{x-\mu}{\sigma})^2],
+    f(x) = \frac{1}{\sigma\sqrt{2\pi}}\exp\left[-\frac{1}{2}(\frac{x-\mu}{\sigma})^2\right],
 \end{equation}
 
 for $x\in \R$. 
@@ -869,8 +869,6 @@ as seen from figure \ref{fig:var}.
 \section{Conclusion}
 
 \begin{thebibliography}{99}
-    \bibitem{DCP}
-    G.~Farin, F.~Hansford, \emph{Discrete Coons patches}, 
     \bibitem{riskmetrices}
     J.P.~Morgan, \emph{RiskMetrics - Technical Document}, 1996.
     \bibitem{nonlinearvar}
