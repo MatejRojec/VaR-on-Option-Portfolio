@@ -12,11 +12,11 @@ asset.paths <- function(s0, mu, sigma, nsims, periods)
 
 
 S =102
-K = 100
+K = 105
 mu = 0.02
 r = 0.05
 sigma = 0.2
-N = 100
+N = 10000
 T = 1000
 # Single Asset for 10 years
 p = (0:T)/T
@@ -52,12 +52,11 @@ call_price <- S * phid1 - K * exp(-r * ttt) * pnorm(d2)
 simulated_call_payoffs <- exp(-r*ttt)*pmax(ST-K,0)
 pl_call <- simulated_call_payoffs - call_price
 
-
-matplot(call_price, type='l', xlab='Time split of 1 year', ylab='Call prices',
-        main='Selected Price Paths')
+matplot(call_price, type='l', xlab='Time split of 1 year', ylab='Call options prices',
+        main='Call options prices in one year')
 
 matplot(simulated_call_payoffs, type='l', xlab='Time split of 1 year', ylab='Simulated call payoffs',
-        main='Selected Price Paths')
+        main='Call options payout in one year')
 
 matplot(pl_call, type='l', xlab='Time split of 1 year', ylab='Simulated call profit & loss',
         main='Selected Price Paths')
@@ -71,14 +70,18 @@ put_price <- -S * phimd11 + K * exp(-r * ttt) * pnorm(-d22)
 simulated_put_payoffs <- exp(-r*ttt)*pmax(K-ST,0)
 pl_put <- simulated_put_payoffs - put_price
 
+matplot(put_price, type='l', xlab='Time split of 1 year', ylab='Put options prices',
+        main='Put options prices in one year')
+
 matplot(pl_put, type='l', xlab='Time split of 1 year', ylab='Simulated put profit & loss',
         main='Selected Price Paths')
 
 
 # portfoilio of 1 put & 1 call
-
-price <- call_price + put_price
-pay_off <- simulated_call_payoffs + simulated_put_payoffs
+a = 0.1
+b =  1 - a
+price <- a * call_price + b * put_price
+pay_off <- a * simulated_call_payoffs + b * simulated_put_payoffs
 pl <- pay_off -  price
 
 matplot(pl, type='l', xlab='Time split of 1 year', ylab='Simulated put profit & loss',
@@ -93,7 +96,7 @@ for(i in 1:length(pl[,1])){
 }
 
 
-hist(pl[,1], col="red", xlab = 'Profit & loss histogram')
+hist(pl[1,], col="red", main = 'Profit & loss histogram', xlab = 'Profit & loss')
 
 matplot(var, type='l', xlab='Time split of 1 year', ylab='Simulated Var(95)',
         main='Selected Price Paths')

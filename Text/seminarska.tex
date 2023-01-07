@@ -10,6 +10,8 @@
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{amsfonts}
+\usepackage{subfigure}
+
 
 
 \theoremstyle{definition}
@@ -114,7 +116,7 @@ different simulations.
 
 
 \section{Options}
-
+\label{ch:options}
 An option is a contract between option holder (buyer) 
 and option writer (seller) that gives the buyer the right - 
 but not the obligation - to buy or sell an underlying asset at a 
@@ -692,8 +694,6 @@ parameters) a covariance matrix and position values.
 
 
 
-
-
 \subsection{Limitations}
 
 There are, however, some limitations to the usage of such an approach
@@ -711,5 +711,87 @@ of loss on a portfolio of options, it may still not be
 sufficient to capture the full range of risks faced by 
 an options portfolio.
 
+\section{Simulation}
+
+Let us assume the Black-Scholes model.
+Our portfolio will consist od a european 
+call option and a european put option.
+The european call option will present 
+$a$ of our portfolio and the  european put option
+will present $b$ of our portfolio 
+where $(a,b) \in [0,1]^2$ and $a+b=1$.
+Suppose we have a stock $S$ with the starting price 
+at $S_0 = 102$, striking price $K=105$, expiration time 
+1 year, expected payout $\mu = 0.02$, interest rate
+$r = 0.05$, volitility $\sigma = 0.2$.
+We are interested to find out what is the 
+$\textnormal{Var}_{0.95}$ of a portfolio.
+
+Using the Monte Carlo method we will simulate 
+$N = 10000$ paths of the option in 1000 evenly 
+distributed time stamps in the interval $[0,1]$.
+The paths can be seen in 
+figure \ref{fig:price_path}.
+
+\begin{figure}[!ht]
+    \centering
+    \caption{Price path of stock $S$ in one year.}
+    \label{fig:price_path}
+    \includegraphics[scale=0.65]{price_paths.png}
+ \end{figure}
+ 
+From chapter \ref{ch:options}, we know 
+that the price for a european call under the Black-Scholes model
+can be calculated as:
+$$
+    V_t = S_t\Phi(d_1) - Ke^{-R(T-t)}\Phi(d_2).
+$$
+We also know that the price of a put option call be calculated as
+$$
+    V_t = Ke^{-R(T-t)}\Phi(-d_2)-S_t\Phi(-d_1).
+$$    
+
+From figure \ref{fig:option_prices} we can see 
+the simulated prices from paths from figure \ref{fig:price_path}. 
+
+\begin{figure}[ht!]
+    \centering
+    \subfigure[Call option path prices]{
+    \includegraphics[width=0.45\textwidth]{Call_prices.png}
+    }
+    \subfigure[Put option path prices]{
+    \includegraphics[width=0.45\textwidth]{Put_prices.png}
+    }
+
+    \caption{Call option path prices 
+            and put option path prices of stock $S$}
+ \label{fig:option_prices}
+ \end{figure}
+ 
+The payoff of a european call at time $t$, is 
+calculated as: 
+$$ 
+\max (S_T - K, 0) * e^(T-t), 
+$$
+and for a european put option it is similarly:
+$$ 
+\max (K - S_T, 0) * e^(T-t). 
+$$
+Let us now simulate these two payoffs.
+This can be seen from figure \ref{fig:option_payoff}.
+
+\begin{figure}[ht!]
+    \centering
+    \subfigure[Call option payoffs path]{
+    \includegraphics[width=0.45\textwidth]{Call_payput.png}
+    }
+    \subfigure[Put option payoffs prices]{
+    \includegraphics[width=0.45\textwidth]{Put_paypffs.png}
+    }
+
+    \caption{Call option payoffs prices 
+            and put option payoffs path of stock $S$}
+ \label{fig:option_payoff}
+ \end{figure}4
 
 \end{document}
