@@ -74,3 +74,14 @@ pl_put <- simulated_put_payoffs - put_price
 matplot(pl_put, type='l', xlab='Time split of 1 year', ylab='Simulated put profit & loss',
         main='Selected Price Paths')
 
+
+# portfoilio of 1 put & 1 call
+
+price <- call_price + put_price
+pay_off <- simulated_call_payoffs + simulated_put_payoffs
+pl <- pay_off -  price
+
+matplot(pl, type='l', xlab='Time split of 1 year', ylab='Simulated put profit & loss',
+        main='Selected Price Paths')
+
+
