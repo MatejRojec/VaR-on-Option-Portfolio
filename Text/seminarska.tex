@@ -85,6 +85,26 @@ Ljubljana, \letnica}
 \listoffigures
 \pagebreak
 
+\begin{abstract}
+A stock option is the right to buy or sell a  
+stock at a price for at a time in the future 
+(this based on the type of the option).
+A call option gives the owner the right to buy the underlying, while a 
+put option gives the holder the right to sell the underlying at a future time. 
+european options give the right to sell or buy in the future only at the 
+expiration date. 
+Value at risk (or VaR) is simple measure of risk 
+in the financial markets.
+We introduce three main methods to calculate VaR, the first is 
+variance-covariance method, the second is historical simulation and 
+the third is Monte Carlo simulation. We take a look also at how to 
+calculate VaR using non-linear methods. Mainly the 
+Delta-Gamma-Theta approach. Finally we 
+look at an example of the Monte Carlo method on a portfolio
+of European options.         
+\end{abstract}
+
+
 \section{Introduction}
 
 Value at risk (or VaR) is a widely used measure of risk 
@@ -202,7 +222,7 @@ We will approach this using so called greek parameters.
 
 \section{Value at Risk}
 
-"Value at Risk" or VaR is a measure, defined as the maximum potential change in portfolio value 
+``Value at Risk'' or VaR is a measure, defined as the maximum potential change in portfolio value 
 at a certain (high enough) confidence level for a predetermined time frame.
 Usually, the $95\%$ or $99\%$ confidence levels are used.
 
@@ -212,8 +232,9 @@ This means that if VaR for an asset is a 100 million euros in the period of one 
 with a $95\%$ confidence level, then there is only $5\%$ probability that this asset's value 
 will fall for more than a 100 million euros throughout any week.
 
-Let us now give a formal definiton of value at risk. 
+Let us now give a formal definition of value at risk. 
 \begin{definition}
+    \label{def:var}
 Let $X$ be a random variable on a probability space $(\Omega, \f, \p)$ and $\alpha \in (0, 1)$.
 VaR$_\alpha(X)$ is defined as the $(1-\alpha)$ quantile of -$X$. Then
 
@@ -324,7 +345,7 @@ Should such a relation be linear, delta takes the value -1 or 1. And if delta is
 any other number between -1 and 1, the relation between the two values is non-linear.
 
 In addition, we need the gamma parameter to define the convexity of a function.
-For linear relations, gama always equals 0 and the function's slope is a constant.
+For linear relations, gamma always equals 0 and the function's slope is a constant.
 Non-linear relations, such as we have with options, gamma always represents a non-negative 
 value, different from 0. This is were the different approaches for non-linear VaR calculation 
 stem from.
@@ -339,7 +360,18 @@ portfolio returns distribution (its mean, standard deviation, skewness and kurto
 Then we find the distribution with the same first four moments as the portfolio returns distribution
 and calculate the fifth percentile (or the first one depending on given problem).
 From this, we get VaR.
-\newpage
+
+The Monte Carlo method relies on the Black-Scholes model, namely the idea of 
+a risk neutral measure. 
+The idea is to simulate a large number of random
+price paths for the underlying 
+and to then calculate the associated payoff of each option 
+in the portfolio for each path.
+From these we get a distribution of the payoff and we can use equation \eqref{var} 
+form definition \ref{def:var} to calculate the VaR of a portfolio of options.
+
+
+
 
 \section{The Greeks}
 
@@ -347,7 +379,7 @@ From this, we get VaR.
 As we want to calculate the theoretical value of an 
 option and understand its changes in response to 
 various factors, we now take a closer look at some of the 
-"Greeks". \\
+``Greeks''. 
 
 In the context of options trading, they present a 
 set of sensitivity measures, usually computed 
@@ -457,7 +489,7 @@ $$
 
 We have already stated before that the delta of a call option 
 increases as the call moves more from out-of-the-money to in-the-money.
-The gamma is in fact only a precise measurment of how fast the delta is 
+The gamma is in fact only a precise measurement of how fast the delta is 
 increasing.
 
 Let's look at an example. We will assume that a Stock B January 50 call has a delta of 0.25
@@ -476,7 +508,7 @@ Obviously, the above example is flawed, as the
 delta cannot keep increasing by 0.05 each time 
 Stock B gains another point in price, for it will eventually exceed 1.00,
 and we know that for call options the Delta has an upper bound of 1.
-Therfore it is obvious that the gamma has to change.
+Therefore it is obvious that the gamma has to change.
 In general, the gamma is at its maximum point when the stock is near the strike of the
 option.
 As the stock moves away from the strike in either direction, the gamma
@@ -516,16 +548,16 @@ to nearly 1.00 because of the short time remaining until expiration. Thus, the g
 would be roughly 0.25. as compared to much smaller values of gamma for at-the-money options with several
 weeks or months of life remaining.
 Contrary out-of-the-money options display a different relationship between gamma and
-time to expirery. An out-of-the-money option that is about to expire has a very small
+time to expiry. An out-of-the-money option that is about to expire has a very small
 delta, and hence a very small gamma.
 
 The volatility of the underlying security also plays a part in gamma. 
-At-themoney options on less volatile securities will have higher gammas than similar options
+At-the-money options on less volatile securities will have higher gammas than similar options
 on more volatile securities. 
 
 \subsection{The Theta}
 
-Measuring an options's sensitivity to time, 
+Measuring an options sensitivity to time, 
 theta tell us how susceptible is an option's value 
 to the passage of time. 
 
@@ -572,12 +604,12 @@ near the end of its life.
 
 Long positions generally have a negative theta while 
 short positions have a positive one. 
-The theta of an individual option is usually of little interest to the risk maneger.
+The theta of an individual option is usually of little interest to the risk manager.
 The delta or gamma are usually more important. However, as with the
 other risk measures, theta can be computed for an entire portfolio of options.
 
 Note that the underlying itself has a 
-theta of zero, since it cannot lose any value beacuse of time decay. 
+theta of zero, since it cannot lose any value, because of time decay. 
 
 \subsection{The Vega}
 
@@ -592,7 +624,7 @@ Vega is the derivative of the option value with respect to the volatility of the
 Volatility in this sense is a measure of how quickly the underlying security moves around. 
 We usually calculate it as the standard deviation of stock prices over some
 period of time, generally annualized.
-A stock with higher volatility is therfore more volatile.
+A stock with higher volatility is therefore more volatile.
 It is calculated as the following derivative:
 $$ 
 \mathcal{V}  = \frac{\partial V}{\partial \sigma}
@@ -600,7 +632,7 @@ $$
 
 
 Vega is the amount by which the option price changes when the
-volatility changes. Vega is therfore always a positive number, whether it refers to
+volatility changes. Vega is therefore always a positive number, whether it refers to
 a put or a call. 
 
 It is logical that more volatile stocks have more expensive options. 
@@ -668,7 +700,7 @@ more sensitive to changes in the
 underlying asset's price, 
 while a portfolio with a high theta 
 may be more sensitive to the passage 
-of time.\\
+of time.
 
 
 The simplest approximation using greeks would estimate changes 
@@ -682,9 +714,8 @@ asset's price.
 This may be improved with inclusion of gamma, which also accounts for 
 non-linear effects of change as it introduces skewness into the price distribution.
 
-
 Finally, we add theta into the equation to improve the accuracy of the calculation 
-with inclusion of the time decay.\\
+with inclusion of the time decay.
 
 And while this approach does not necessitate any simulations,
 we do need (besides the delta, gamma and theta 
@@ -709,7 +740,7 @@ of loss on a portfolio of options, it may still not be
 sufficient to capture the full range of risks faced by 
 an options portfolio.
 
-\section{Simulation}
+\section{Simulation usong Monte Carlo}
 
 Let us assume the Black-Scholes model.
 Our portfolio will consist of a european 
@@ -721,9 +752,9 @@ where $(a,b) \in [0,1]^2$ and $a+b=1$.
 Suppose we have a stock $S$ with the starting price 
 at $S_0 = 102$, striking price $K=105$, expiration time 
 1 year, expected payout $\mu = 0.02$, interest rate
-$r = 0.05$, volitility $\sigma = 0.2$.
+$r = 0.05$, volatility $\sigma = 0.2$.
 We are interested to find out what is the 
-$\textnormal{Var}_{0.95}$ of a portfolio.
+$\textnormal{VaR}_{0.95}$ of a portfolio.
 
 Using the Monte Carlo method we will simulate 
 $N = 10000$ paths of the option in 1000 evenly 
@@ -817,7 +848,7 @@ It can we seen from figure \ref{fig:optionpl}.
  \end{figure}
 
 \newpage
-Now let's assume our oprtfolio consist of $a = 0.25$ 
+Now let's assume our options portfolio consist of $a = 0.25$ 
 of a european call option and $b = 1- 0.25 = 0.75$ of 
 a put option. 
 The paths of the price, the payout and profit and loss 
@@ -842,7 +873,7 @@ At time $t = 0$ we can look at a histogram and
 distribution of the P\&L diagram.
 This can be seen on figure \ref{fig:port_pal_0}.
 With the help of this we can calculate the 
-Var($95$) which is 7.08. 
+$\textnormal{VaR}_{95}$ which is 7.08. 
 
 \begin{figure}[!ht]
     \centering
@@ -855,7 +886,7 @@ Var($95$) which is 7.08.
  \newpage 
 
 If we do the stated above for every time point $t$ we 
-can get a graph that shows us how the Var changes over time,
+can get a graph that shows us how the VaR changes over time,
 as seen from figure \ref{fig:var}. 
 
 \begin{figure}[!ht]
@@ -876,13 +907,16 @@ The main question with options is how risky are they.
 One example to calculate risk is with non-linear VaR, using
 Black-Scholes model. Non-linear VaR considers non-linear relation between
 the price of option and the price of underlying asset. These relations are 
-calculated with the "Greeks". We provided an overview of four greek parameters  
+calculated with the ``Greeks''. We provided an overview of four greek parameters  
 (delta, gamma, theta, and vega of an option) and demonstrated how they 
 can be used for VaR calculation. However, such an approach is not without its 
 limitations. For example, it is not the best way of VaR evaluation for 
 option portfolios with more complex risk profiles. It is also subject to model risk 
 and not sufficient enough to capture the full rages of risks that an options portfolio 
-faces. 
+faces. In reality one of the most common techniques to calculate VaR is 
+with the help of the Monte Carlo method. We looked at an example, where with the 
+help of simulations of multiple paths we managed to calculate the VaR of an option
+portfolio.
 
 
 \begin{thebibliography}{99}
