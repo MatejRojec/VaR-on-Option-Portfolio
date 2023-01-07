@@ -85,3 +85,18 @@ matplot(pl, type='l', xlab='Time split of 1 year', ylab='Simulated put profit & 
         main='Selected Price Paths')
 
 
+alpha = 0.95
+alpha_index = floor(length(pl[1, ]) * (1 - alpha))
+s = rep( 
+for(i in 1:length(pl[,1])){
+  -sort(pl[1,])[alpha_index]
+}
+
+
+
+
+
+
+
+
+
