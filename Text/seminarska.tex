@@ -83,6 +83,7 @@ Ljubljana, \letnica}
 
 \thispagestyle{empty}
 \tableofcontents
+\listoffigures
 \pagebreak
 
 \section{Introduction}
@@ -814,7 +815,7 @@ It can we seen from figure \ref{fig:optionpl}.
  \label{fig:optionpl}
  \end{figure}
 
- \newpage
+\newpage
 Now let's assume our oprtfolio consist of $a = 0.25$ 
 of a european call option and $b = 1- 0.25 = 0.75$ of 
 a put option. 
@@ -836,5 +837,32 @@ can be see from figure \ref{fig:kpi}.
  \label{fig:kpi}
  \end{figure}
 
+At time $t = 0$ we can look at a histogram and 
+distribution of the P\&L diagram.
+This can be seen on figure \ref{fig:port_pal_0}.
+With the help of this we can calculate the 
+Var($95$) which is 7.08. 
+
+\begin{figure}[!ht]
+    \centering
+    \caption{Profit and loss diagram for the portfolio
+            at time 0}
+    \label{fig:port_pal_0}
+    \includegraphics[scale=0.65]{portfolio_pal_0.png}
+ \end{figure}
+
+ \newpage 
+
+If we do the stated above for every time point $t$ we 
+can get a graph that shows us how the Var changes over time,
+as seen from figure \ref{fig:var}. 
+
+\begin{figure}[!ht]
+    \centering
+    \caption{Profit and loss diagram for the portfolio
+            at time 0}
+    \label{fig:var}
+    \includegraphics[scale=0.65]{var_sim.png}
+ \end{figure}
 
 \end{document}

@@ -1,4 +1,5 @@
 library("dplyr") 
+library("ggplot2")
 
 asset.paths <- function(s0, mu, sigma, nsims, periods) 
 {
@@ -76,32 +77,47 @@ matplot(put_price, type='l', xlab='Time split of 1 year', ylab='Put options pric
 matplot(simulated_put_payoffs, type='l', xlab='Time split of 1 year', ylab='Simulated put payoffs',
         main='Put options payout in one year')
 
-matplot(pl_put, type='l', xlab='Time split of 1 year', ylab='Simulated put profit & loss',
-        main='Selected Price Paths')
+matplot(pl_put, type='l', xlab='Time split of 1 year', ylab='Profit & loss',
+        main='Simulated put profit & loss')
 
 
 # portfoilio of 1 put & 1 call
-a = 0.1
+a = 0.25
 b =  1 - a
 price <- a * call_price + b * put_price
 pay_off <- a * simulated_call_payoffs + b * simulated_put_payoffs
 pl <- pay_off -  price
 
-matplot(pl, type='l', xlab='Time split of 1 year', ylab='Simulated put profit & loss',
-        main='Selected Price Paths')
+matplot(put_price, type='l', xlab='Time split of 1 year', ylab='Portfolio prices',
+        main='Options portfolio prices in one year')
+
+matplot(simulated_put_payoffs, type='l', xlab='Time split of 1 year', ylab='Simulated portfolio payoffs',
+        main='Options portfolio payout in one year')
+
+matplot(pl_put, type='l', xlab='Time split of 1 year', ylab='Portfolio Profit & loss',
+        main='Simulated options portfolio profit & loss')
 
 
 alpha = 0.95
 alpha_index = floor(length(pl[1, ]) * (1 - alpha))
-var = rep(1, 1001) 
+var = rep(1, T+1) 
 for(i in 1:length(pl[,1])){
   var[i] = -sort(pl[i,])[alpha_index]
 }
 
+t1 <- data.frame(pl[1,]) 
+ggplot(data.frame(pl[1,]), aes(x =t1$pl.1...)) +
+  geom_histogram(aes(y = after_stat(!!str2lang("density"))), 
+                 bins=100,
+               fill="#2BFFF2", 
+               color="black") +
+  geom_density(alpha=.3, fill="#4EFF2B") +
+  xlab("Profit and loss distribution at t = 0") + 
+  ylab("Relative frequency") +
+  
 
-hist(pl[1,], col="red", main = 'Profit & loss histogram', xlab = 'Profit & loss')
 
 matplot(var, type='l', xlab='Time split of 1 year', ylab='Simulated Var(95)',
-        main='Selected Price Paths')
+        main='Simulated Var over time')
 
 
