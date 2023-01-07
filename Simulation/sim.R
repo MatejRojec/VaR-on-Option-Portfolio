@@ -58,8 +58,8 @@ matplot(call_price, type='l', xlab='Time split of 1 year', ylab='Call options pr
 matplot(simulated_call_payoffs, type='l', xlab='Time split of 1 year', ylab='Simulated call payoffs',
         main='Call options payout in one year')
 
-matplot(pl_call, type='l', xlab='Time split of 1 year', ylab='Simulated call profit & loss',
-        main='Selected Price Paths')
+matplot(pl_call, type='l', xlab='Time split of 1 year', ylab='Profit & loss',
+        main='Simulated call profit & loss')
 
 
 # european put
@@ -72,6 +72,9 @@ pl_put <- simulated_put_payoffs - put_price
 
 matplot(put_price, type='l', xlab='Time split of 1 year', ylab='Put options prices',
         main='Put options prices in one year')
+
+matplot(simulated_put_payoffs, type='l', xlab='Time split of 1 year', ylab='Simulated put payoffs',
+        main='Put options payout in one year')
 
 matplot(pl_put, type='l', xlab='Time split of 1 year', ylab='Simulated put profit & loss',
         main='Selected Price Paths')

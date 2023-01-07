@@ -639,7 +639,6 @@ at the methodology for using
 the delta, gamma and theta of 
 options in the VaR calculation. 
 
-
 Overall, incorporating these greeks into the VaR calculation 
 can provide a more accurate estimate of the risk of 
 loss on a portfolio of options.
@@ -664,8 +663,7 @@ each of the three greeks used for this VaR calculation is as follows:
     in the approximation of the overall risk of the portfolio.
 \end{itemize}
 
-For example, 
-a portfolio with a high gamma may be 
+For example, a portfolio with a high gamma may be 
 more sensitive to changes in the 
 underlying asset's price, 
 while a portfolio with a high theta 
@@ -752,7 +750,9 @@ $$
 $$    
 
 From figure \ref{fig:option_prices} we can see 
-the simulated prices from paths from figure \ref{fig:price_path}. 
+the simulated prices
+of one option from paths 
+generated in figure \ref{fig:price_path}. 
 
 \begin{figure}[ht!]
     \centering
@@ -792,6 +792,49 @@ This can be seen from figure \ref{fig:option_payoff}.
     \caption{Call option payoffs prices 
             and put option payoffs path of stock $S$}
  \label{fig:option_payoff}
- \end{figure}4
+ \end{figure}
+
+From figure \ref{fig:option_payoff}
+and figure \ref{fig:option_prices}
+we can now look at the profit and loss diagram for 
+any time $t$.
+It can we seen from figure \ref{fig:optionpl}.
+
+\begin{figure}[ht!]
+    \centering
+    \subfigure[Call option payoffs path]{
+    \includegraphics[width=0.45\textwidth]{Call_pal.png}
+    }
+    \subfigure[Put option payoffs prices]{
+    \includegraphics[width=0.45\textwidth]{Put_pal.png}
+    }
+
+    \caption{Call option P\&L paths 
+            and put option P\&L path of stock $S$}
+ \label{fig:optionpl}
+ \end{figure}
+
+ \newpage
+Now let's assume our oprtfolio consist of $a = 0.25$ 
+of a european call option and $b = 1- 0.25 = 0.75$ of 
+a put option. 
+The paths of the price, the payout and profit and loss 
+can be see from figure \ref{fig:kpi}.
+
+\begin{figure}[ht!]
+    \centering
+    \subfigure[Portfolio prices paths]{
+    \includegraphics[width=0.45\textwidth]{por_prices.png}
+    }
+    \subfigure[Portfolio payoofs paths]{
+    \includegraphics[width=0.45\textwidth]{por_payoff.png}
+    }
+    \subfigure[Portfolio profit \& loss paths]{
+        \includegraphics[width=0.45\textwidth]{por_pal.png}
+    }    
+    \caption{Portfolio key performance indicators}
+ \label{fig:kpi}
+ \end{figure}
+
 
 \end{document}
