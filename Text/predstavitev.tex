@@ -111,37 +111,63 @@
 
 \begin{frame}
     \frametitle{The Delta}
-    \begin{block}{The Delta}
+    The Delta of an option tells us how much an option price 
+    would change relative to a change in the price of the 
+    underlying asset.\pause
+    
+
+    \begin{block}{}
         $$
         \Delta = \frac{\partial V}{\partial S}
         $$ 
     \end{block}
     \begin{itemize}
-        \item<2-> Call: $\Delta\in [0,1]$
-        \item<3-> Put: $\Delta\in [-1,0]$
-        \item<4-> european call option: $\Phi(d_1)$
+        \item<3-> Call: $\Delta\in [0,1]$
+        \item<4-> Put: $\Delta\in [-1,0]$
+        \item<5-> European call option: $\Phi(d_1)$
     \end{itemize}
 \end{frame}
 
 \begin{frame}
     \frametitle{The Gamma}
-    \begin{block}{The Gamma}
+    The Gamma measures the change in an option's 
+    delta relative to changes in the underlying
+    asset price.\pause
+
+    \begin{block}{}
         $$
         \Gamma = \frac{\partial^2 V}{\partial S^2}
         $$
     \end{block}
+    \pause
     \begin{itemize}
-        \item<2-> european call option: $e^{-R(T-t)}\frac{\Phi(d1)}{S_t\sigma\sqrt{T-t}}$
+        \item European call option: $e^{-R(T-t)}\frac{\Phi(d1)}{S_t\sigma\sqrt{T-t}}$
     \end{itemize}
+    \vspace{0.3cm}
+    \pause 
+    In general, the gamma is at its maximum point when the stock is near the 
+    strike of the option.
 \end{frame}
 
 \begin{frame}
     \frametitle{The Theta}
-    \begin{block}{The Theta}
+    The Theta measures an options sensitivity to time 
+    and tells us how susceptible is an option's value 
+    to the passage of time.\pause
+
+    \begin{block}{}
         $$
         \Theta = \frac{\partial V}{\partial t}
         $$  
-    \end{block}
+    \end{block}\pause
+    \vspace{0.3cm}
+    \begin{itemize}
+        \item An option's potential drops as time moves on. 
+    \end{itemize}\pause
+    \vspace{0.3cm}
+    Long positions generally have a negative theta and 
+    short positions a positive one.
+    
 \end{frame}
 
 \begin{frame}
