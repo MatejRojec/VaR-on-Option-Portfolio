@@ -172,23 +172,36 @@
 
 \begin{frame}
     \frametitle{The Vega}
-    \begin{block}{The Vega}
+    The Vega measures an options sensitivity to volatility.\pause
+
+    \begin{block}{}
         $$ 
         \mathcal{V}  = \frac{\partial V}{\partial \sigma}
         $$  
-    \end{block}
+    \end{block}\pause
+    \vspace{0.3cm}
+    As an amount by which the option price changes when the 
+    volatility changes, vega is always a positive number.
 \end{frame}
 
 \begin{frame}
     \frametitle{Delta-Gamma-Theta Approach}
+    Incorporation of greek parameters into the VaR can 
+    provide a more accurate estimaet of the risk of loss 
+    on option portfolio.
+
+    \vspace{0.3cm}
+    \pause
     Importance of the three Greeks used for VaR calculation:
+    \vspace{0.3cm}
+    \pause
     \begin{itemize}
         \item Delta: the potential change 
         in the option's value associated with a 
-        unit shift in the underlying asset's price;
+        unit shift in the underlying asset's price;\pause
         \item Gamma: important role in 
         VaR calculations as the underlying asset price 
-        fluctuates more significantly;
+        fluctuates more significantly;\pause
         \item Theta: time decay is a major factor
         in the approximation of the overall risk of the portfolio.
     \end{itemize}
