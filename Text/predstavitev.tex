@@ -171,20 +171,6 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{The Vega}
-    The Vega measures an option's sensitivity to volatility.\pause
-
-    \begin{block}{}
-        $$ 
-        \mathcal{V}  = \frac{\partial V}{\partial \sigma}
-        $$  
-    \end{block}\pause
-    \vspace{0.3cm}
-    As an amount by which the option price changes when the 
-    volatility changes, vega is always a positive number.
-\end{frame}
-
-\begin{frame}
     \frametitle{Delta-Gamma-Theta Approach}
     Incorporation of greek parameters into the VaR can 
     provide a more accurate estimate of the risk of loss 
@@ -205,6 +191,93 @@
         \item Theta: time decay is a major factor
         in the approximation of the overall risk of the portfolio.
     \end{itemize}
+\end{frame}
+
+\section{Monte Carlo simulation}
+
+\begin{frame}
+    \begin{figure}[ht!]
+        \centering
+        \subfigure[Call option path prices]{
+        \includegraphics[width=0.45\textwidth]{Call_prices.png}
+        }
+        \subfigure[Put option path prices]{
+        \includegraphics[width=0.45\textwidth]{Put_prices.png}
+        }
+    
+        \caption{Call option path prices 
+                and put option path prices of stock $S$}
+     \label{fig:option_prices}
+     \end{figure}
+\end{frame}
+
+\begin{frame}
+    \begin{figure}[ht!]
+        \centering
+        \subfigure[Call option payoffs path]{
+        \includegraphics[width=0.45\textwidth]{Call_payput.png}
+        }
+        \subfigure[Put option payoffs prices]{
+        \includegraphics[width=0.45\textwidth]{Put_paypffs.png}
+        }
+    
+        \caption{Call option payoffs prices 
+                and put option payoffs path of stock $S$}
+     \label{fig:option_payoff}
+     \end{figure}
+\end{frame}
+
+\begin{frame}
+    \begin{figure}[ht!]
+        \centering
+        \subfigure[Call option payoffs path]{
+        \includegraphics[width=0.45\textwidth]{Call_pal.png}
+        }
+        \subfigure[Put option payoffs prices]{
+        \includegraphics[width=0.45\textwidth]{Put_pal.png}
+        }
+    
+        \caption{Call option P\&L paths 
+                and put option P\&L path of stock $S$}
+     \label{fig:optionpl}
+     \end{figure}    
+\end{frame}
+
+\begin{frame}
+    \begin{figure}[ht!]
+        \centering
+        \subfigure[Portfolio prices paths]{
+        \includegraphics[width=0.45\textwidth]{por_prices.png}
+        }
+        \subfigure[Portfolio payoofs paths]{
+        \includegraphics[width=0.45\textwidth]{por_payoff.png}
+        }
+        \subfigure[Portfolio profit \& loss paths]{
+            \includegraphics[width=0.45\textwidth]{por_pal.png}
+        }    
+        \caption{Portfolio key performance indicators}
+     \label{fig:kpi}
+     \end{figure}
+\end{frame}
+
+\begin{frame}
+    \begin{figure}[!ht]
+        \centering
+        \caption{Profit and loss diagram for the portfolio
+                at time 0}
+        \label{fig:port_pal_0}
+        \includegraphics[scale=0.35]{portfolio_pal_0.png}
+     \end{figure}
+\end{frame}
+
+\begin{frame}
+    \begin{figure}[!ht]
+        \centering
+        \caption{Profit and loss diagram for the portfolio
+                at time 0}
+        \label{fig:var}
+        \includegraphics[scale=0.35]{var_sim.png}
+     \end{figure}
 \end{frame}
 
 \end{document}
