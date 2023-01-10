@@ -41,7 +41,7 @@
   Slovenia
 }
 
-\date[20. december 2022]
+\date[11. januar 2022]
 
 \begin{document}
 
@@ -58,9 +58,9 @@
         or put (sell) an underlying asset at a strike price on a fixed expiration date. 
     \end{block}
     \begin{itemize}
-        \item<3-> european options
-        \item<4-> american options
-        \item<5-> exotic options
+        \item<2-> european options
+        \item<3-> american options
+        \item<4-> exotic options
     \end{itemize}
 \end{frame}
 
@@ -83,7 +83,7 @@
             \item $R$ \dots risk-free interest rate
             \item $S_t$ \dots the underlying asset's value at time $t$
         \end{itemize}
-        \item $d_1 = \frac{\ln(\frac{S_0}{K}e^{RT})+\frac{\sigma^2}{2}T}{\sigma\sqrt{T}}$
+        \item $d_1 = \frac{\ln(\frac{S_t}{K}e^{RT})+\frac{\sigma^2}{2}T}{\sigma\sqrt{T}}$
         \item $d_2 = d_1-\sigma\sqrt{T}$
     \end{itemize}
 \end{frame}
@@ -91,7 +91,7 @@
 \begin{frame}
     \frametitle{VaR}
     \begin{block}{VaR definiton}
-        Let $X$ be a random variable on a probability space $(\Omega, \f, \mathcal{P})$ and $\alpha \in (0, 1)$.
+        Let $X$ be a random variable on a probability space $(\Omega, \f, \mathbb{P})$ and $\alpha \in (0, 1)$.
         $\text{VaR}_\alpha(X)$ is defined as the $(1-\alpha)$ quantile of -$X$. Then
         $$
         \text{VaR}_\alpha(X) := - \inf \{ x \in \R \mid F_X(x) > \alpha \} = F^{-1}_{-X}(1-\alpha).
